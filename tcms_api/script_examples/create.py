@@ -17,7 +17,7 @@ tcms_api.set_cache_level(tcms_api.CACHE_OBJECTS)
 
 # Initialize an existing test plan
 info("Initializing an existing test plan")
-general_plan = tcms_api.TestPlan(3781)
+general_plan = tcms_api.TestPlan(1)
 print(general_plan)
 
 # Logging, catching errors
@@ -38,11 +38,12 @@ for testcase in general_plan:
 # Create a new test plan
 info("Creating a new test plan")
 release_plan = tcms_api.TestPlan(
-    parent=general_plan,
+    parent=None,
     name="python / rhel-6.2.0 / ER#11359",
-    type="Release",
-    product="Red Hat Enterprise Linux 6",
-    version="6.2")
+    type="Performance",
+    product="SMS",
+    version="1.2",
+    text= 'simple text')
 
 # Link all automated test cases from the general plan
 info("Linking automated test cases from the general plan")
@@ -55,17 +56,17 @@ release_plan.update()
 info("Creating a new test case")
 testcase = tcms_api.TestCase(
     summary="New performance test",
-    product="Red Hat Enterprise Linux 6",
-    category="Performance",
+    product="SMS",
+    category="SMS category",
     script="/CoreOS/python/Performance/base")
 
 # Set status, priority, default tester, add tags, attach bugs, link plans
 info("Setting status, priority, tester, tags, bugs and plans")
 testcase.status = tcms_api.CaseStatus("CONFIRMED")
 testcase.priority = tcms_api.Priority("P1")
-testcase.tester = tcms_api.User("psplicha")
-testcase.tags.add(tcms_api.Tag("Tier1"))
-testcase.bugs.add(tcms_api.Bug(bug=123))
+testcase.tester = tcms_api.User("plivo")
+# testcase.tags.add(tcms_api.Tag("Tier1"))
+# testcase.bugs.add(tcms_api.Bug(bug=123))
 testcase.testplans.add([general_plan, release_plan])
 testcase.update()
 
@@ -78,12 +79,13 @@ for testplan in general_plan.children:
 info("Creating a new test run")
 testrun = tcms_api.TestRun(
     testplan=release_plan,
-    build="RHEL6.2-20110815.n.1",
+    build="SMS-build",
     summary="python-2.6.6-20.el6.x86_64 / ER#11359")
 
 # Get script and arguments for all IDLE performance caseruns, move to RUNNING
 info("Scheduling performance tests")
 for caserun in testrun:
+    print(caserun)
     if (caserun.status == tcms_api.Status("IDLE") and
             str(caserun.testcase.category) == "Performance"):
         print(caserun.testcase.script, caserun.testcase.arguments)

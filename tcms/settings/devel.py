@@ -12,10 +12,10 @@ DEBUG = True
 # Database settings
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/tmp/kiwi.devel.sqlite',
-        'USER': 'root',
-        'PASSWORD': '',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'kiwi',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
         'HOST': '',
         'PORT': '',
     }

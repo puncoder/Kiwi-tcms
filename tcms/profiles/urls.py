@@ -15,6 +15,11 @@ urlpatterns = [
         name='tcms-bookmark'),
     url(r'^(?P<username>[\w.@+-]+)/recent/$', profiles_views.recent,
         name='tcms-recent'),
+    url(r'^(?P<username>[\w.@+-]+)/prod-builds/(?P<product_id>\d+)/$', profiles_views.pbuild,
+            name='tcms-pbuilds'),
+
+    url(r'^(?P<username>[\w.@+-]+)/prod-builds/$', profiles_views.recent,
+                name='tcms-prod-build-url'),
 
     url(r'^logout/$',
         contrib_auth_views.LogoutView.as_view(

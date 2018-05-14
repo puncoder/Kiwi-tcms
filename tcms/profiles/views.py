@@ -119,7 +119,7 @@ def recent(request, username, template_name='profile/recent.html'):
     runs_query = {
         'people': request.user,
         'is_active': True,
-        'status': 'running',
+
     }
 
     tps = TestPlan.objects.filter(Q(author=request.user) | Q(owner=request.user))
@@ -131,7 +131,11 @@ def recent(request, username, template_name='profile/recent.html'):
     tps_active = tps.filter(is_active=True)
     trs = TestRun.list(runs_query)
     latest_fifteen_testruns = trs.order_by('-run_id')[:15]
+    all_test_runs = trs.order_by('-run_id')
     test_plans_disable_count = tps.count() - tps_active.count()
+    # My codes
+    all_builds = {run.build for run in all_test_runs}
+    build_count = len(all_builds)
 
     context_data = {
         'user_profile': up,
@@ -140,9 +144,71 @@ def recent(request, username, template_name='profile/recent.html'):
         'test_runs_count': trs.count(),
         'last_15_test_plans': tps_active[:15],
         'last_15_test_runs': latest_fifteen_testruns,
+        'all_builds': all_builds,
+        'build_count': build_count,
+        'username': str(username),
     }
     return render(request, template_name, context_data)
 
+@require_GET
+@login_required
+def pbuild(request, username, product_id, template_name='profile/product_builds.html'):
+    """List the recent plan/run"""
+
+    if username != request.user.username:
+        return http.HttpResponseRedirect(reverse('tcms-login'))
+    else:
+        up = {'user': request.user}
+
+    runs_query = {
+        'people': request.user,
+        'is_active': True,
+
+    }
+    product_id = int(product_id)
+
+    tps = TestPlan.objects.filter(Q(author=request.user) | Q(owner=request.user))
+    tps = tps.order_by('-plan_id')
+    tps = tps.select_related('product', 'type')
+    tps = tps.extra(select={
+        'num_runs': RawSQL.num_runs,
+    })
+    tps_active = tps.filter(is_active=True)
+    trs = TestRun.list(runs_query)
+    latest_fifteen_testruns = trs.order_by('-run_id')[:15]
+    all_test_runs = trs.order_by('-run_id')
+    test_plans_disable_count = tps.count() - tps_active.count()
+    # My codes
+    prod_builds = {run.build for run in all_test_runs if (run.build.product_id == product_id)}
+    prod_build_count = len(prod_builds)
+    prod = dict()
+    prod[1] = 'SMS'
+    prod[2] = 'VOICE'
+    prod[3] = 'PLATFORM'
+
+    product = prod[product_id]
+
+    all_builds = {run.build for run in all_test_runs}
+    build_count = len(all_builds)
+
+    context_data = {
+        'user_profile': up,
+        'test_plans_count': tps.count(),
+        'test_plans_disable_count': test_plans_disable_count,
+        'test_runs_count': trs.count(),
+        'last_15_test_plans': tps_active[:15],
+        'last_15_test_runs': latest_fifteen_testruns,
+        'all_builds': all_builds,
+        'build_count': build_count,
+        'prod_build_count': prod_build_count,
+        'prod_builds': prod_builds,
+        'product_id': product_id,
+        'username': username,
+        'product': product,
+
+    }
+
+    return render(request, template_name, context_data)
 
 @login_required
 def redirect_to_profile(request):

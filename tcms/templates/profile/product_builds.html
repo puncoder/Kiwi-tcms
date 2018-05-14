@@ -1,0 +1,56 @@
+{% extends "tcms_base.html" %}
+{% load static %}
+
+{% block subtitle %}Plivo {% endblock %}
+
+{% block custom_stylesheet %}
+{% endblock %}
+
+{% block custom_javascript %}
+<script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+
+{% endblock %}
+
+{% block contents %}
+
+
+<div id="content" >
+	<div class="listinfo_content listinfo_index">
+		<div class="leftlistinfo">
+			<table cellpadding="0" cellspacing="0" class="home_table">
+				<tr>
+					<th colspan="4"><div class="sprites tableheader"> <div class="sprites tableheaderleft">{{product}} BUILDS.</div><div class="sprites tableheaderright"></div></div></th>
+				</tr>
+
+				{% for test_build in prod_builds %}
+
+				<tr>
+					<td colspan="3">
+						<a	class="link" href="/runs/?action=search&product={{test_build.product_id}}&build={{test_build.build_id}}">
+							{{ test_build }}
+						</a>
+						<!--<div class="grey" style="margin-top:0px">Product : {{test_build.product}}</div>-->
+						<!--<div class="grey" style="margin-top:0px">Build id : {{test_build.build_id}}</div>-->
+
+					</td>
+				</tr>
+
+				{% endfor %}
+				<tr>
+					<th colspan="4">
+
+						<div class="sprites tablefooter">
+                        <div class="left_float">
+                        {{ prod_build_count }} {{product}} BUILDS</div>
+						</div>
+
+					</th>
+				</tr>
+
+			</table>
+		
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+{% endblock %}

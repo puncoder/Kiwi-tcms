@@ -1,0 +1,2 @@
+username = 'qa'
+password = 'secret'

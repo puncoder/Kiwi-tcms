@@ -13,3 +13,6 @@ docs/target/
 .cache/
 node_modules/
 package-lock.json
+*.png
+tcms/settings/common.py
+tcms/settings/devel.py

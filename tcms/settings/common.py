@@ -5,6 +5,7 @@ from django.contrib.messages import constants as messages
 import tcms
 
 
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~ You have to override the following settings in product.py
 
@@ -20,7 +21,7 @@ SECRET_KEY = '^8y!)$0t7yq2+65%&_#@i^_o)eb3^q--y_$e7a_=t$%$1i)zuv'
 # Database settings
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('KIWI_DB_NAME', 'kiwi'),
         'USER': os.environ.get('KIWI_DB_USER', 'kiwi'),
         'PASSWORD': os.environ.get('KIWI_DB_PASSWORD', 'kiwi'),
@@ -43,7 +44,7 @@ ADMINS = [
 # DEFAULT_FROM_EMAIL must be defined if you want Kiwi TCMS to send emails.
 # You also need to configure the email backend. For more information see:
 # https://docs.djangoproject.com/en/2.0/topics/email/#quick-example
-DEFAULT_FROM_EMAIL = 'kiwi@example.com'
+DEFAULT_FROM_EMAIL = 'amityadav@plivo.com'
 EMAIL_SUBJECT_PREFIX = '[Kiwi-TCMS] '
 
 
@@ -246,6 +247,8 @@ INSTALLED_APPS = [
     'tcms.testplans.apps.AppConfig',
     'tcms.testruns.apps.AppConfig',
     'tcms.xmlrpc',
+
+
 ]
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
