@@ -64,3 +64,8 @@ Support
 Commercial support for Kiwi TCMS is available from
 `Mr. Senko <http://MrSenko.com>`_. For more information, pricing and support
 levels info see http://MrSenko.com/.
+
+For Plivo TCMS , read the plivo_readme.rst
+==========================================
+The modifications are done for Plivo TCMS in this repo by : 
+        Amit Yadav <https://github.com/Coder-AMiT/>
