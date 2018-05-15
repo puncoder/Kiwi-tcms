@@ -141,6 +141,10 @@ After adding products and its details on server, it's must to add the details in
 products.py is used to add the default values given in this file for a product while adding test cases,
 test plans and test runs from spreadsheet.
 
+Change status to UN-AUTO:
+-------------------------
+update test_case_run_status set name='UN-AUTO' where case_run_status_id=8;
+
 
 
 plivo_tcms commands:
