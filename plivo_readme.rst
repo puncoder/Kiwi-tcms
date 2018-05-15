@@ -126,6 +126,11 @@ products.py is used to add the default values given in this file for a product w
 test plans and test runs from spreadsheet.
 
 
+Change status to UN-AUTO:
+-------------------------
+
+update test_case_run_status set name='UN-AUTO' where case_run_status_id=8;
+
 
 plivo_tcms commands:
 --------------------
