@@ -82,3 +82,8 @@ connect Db on terminal:
 all plans:
     ﻿SELECT * FROM public.test_plans;
 
+
+For Plivo TCMS , read the plivo_readme.rst
+==========================================
+The modifications are done for Plivo TCMS in this repo by : 
+        Amit Yadav Coder-AMiT 
