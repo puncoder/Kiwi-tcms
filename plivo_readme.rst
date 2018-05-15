@@ -4,12 +4,20 @@ Installation ::
 
 commands:
 --------
-git clone https://github.com/kiwitcms/Kiwi.git
+git clone https://github.com/Coder-AMiT/Kiwi-tcms
+
+mv Kiwi-tcms Kiwi
+
 virtualenv --python=python3.6 ~/virtualenvs/kiwi
+
 . ~/virtualenvs/kiwi/bin/activate
+
 cd Kiwi
+
 sudo pip install -r requirements/mysql.txt
+
 sudo pip install -r requirements/devel.txt
+
 sudo pip install -r requirements/postgres.txt
 
 npm install
