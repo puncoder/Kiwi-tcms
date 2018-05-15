@@ -5,18 +5,30 @@ Installation ::
 commands:
 --------
   git clone https://github.com/Coder-AMiT/Kiwi-tcms
+  
   mv Kiwi-tcms Kiwi  
+  
   virtualenv --python=python3.6 ~/virtualenvs/kiwi
+  
   . ~/virtualenvs/kiwi/bin/activate
+  
   cd Kiwi
+  
   sudo pip install -r requirements/mysql.txt
+  
   sudo pip install -r requirements/devel.txt
+  
   sudo pip install -r requirements/postgres.txt
+  
 
   npm install
+  
   ./manage.py migrate
+  
   ./manage.py createsuperuser
+  
   ./manage.py runserver
+  
 
 Now, open http://127.0.0.1:8000/ and should be presented with your brand new Kiwi TCMS homepage!
 
