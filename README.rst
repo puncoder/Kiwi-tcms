@@ -69,4 +69,5 @@ Plivo TCMS:
 ----------
 This Repo is modification of Kiwi TCMS for Plivo.
 All the modifications are done by `Amit Yadav <https://github.com/Coder-AMiT>`_ 
-To get into Plivo TCMS settings, read _`plivo-tcms.rst <https://github.com/Coder-AMiT/Kiwi-tcms/blob/master/plivo_readme.rst>`_
+
+To get into Plivo TCMS installations and settings : `Plivo Readme <https://github.com/Coder-AMiT/Kiwi-tcms/blob/master/plivo_readme.rst>`_  
