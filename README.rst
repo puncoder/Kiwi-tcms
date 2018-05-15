@@ -68,4 +68,4 @@ levels info see http://MrSenko.com/.
 For Plivo TCMS , read the plivo_readme.rst
 ==========================================
 The modifications are done for Plivo TCMS in this repo by : 
-        Amit Yadav <https://github.com/Coder-AMiT/>
+        `Amit Yadav <https://github.com/Coder-AMiT/>`_.
