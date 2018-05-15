@@ -43,9 +43,13 @@ a minimal configuration file ~/.tcms.conf has to be
 provided in the user home directory:
 
   [tcms]
+  
   url = https://tcms.server/xml-rpc/
+  
   username = your-username
+  
   password = your-password
+  
 
 
 Db Configuration:
