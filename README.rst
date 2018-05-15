@@ -68,5 +68,5 @@ levels info see http://MrSenko.com/.
 Plivo TCMS:
 ----------
 This Repo is modification of Kiwi TCMS for Plivo.
-All the modifications are done by _`Amit Yadav <https://github.com/Coder-AMiT/>`_
+All the modifications are done by `Mr. Senko <http://MrSenko.com>`_ _`Amit Yadav <https://github.com/Coder-AMiT/>`_
 To get into Plivo TCMS settings, read _`plivo-tcms.rst <https://github.com/Coder-AMiT/Kiwi-tcms/blob/master/plivo_readme.rst>`_
