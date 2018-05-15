@@ -66,6 +66,6 @@ Commercial support for Kiwi TCMS is available from
 levels info see http://MrSenko.com/.
 
 For Plivo TCMS , read the plivo_readme.rst
-==========================================
+------------------------------------------
 The modifications are done for Plivo TCMS in this repo by : 
-        `Amit Yadav <https://github.com/Coder-AMiT/>`_.
+        `Amit Yadav <https://github.com/Coder-AMiT/>`_
