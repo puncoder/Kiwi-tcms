@@ -11,7 +11,7 @@ immutable_objects = dir(tcms_api.immutable)
 
 # pass the credential of your running instance.
 # Username, password, kiwi-server/xml-rpc
-TCMSXmlrpc('plivo', 'root', 'http://127.0.0.1:8000/xml-rpc/')
+TCMSXmlrpc('plivo', 'root', 'http://0.0.0.0:80/xml-rpc/')
 
 
 def change_status(args):

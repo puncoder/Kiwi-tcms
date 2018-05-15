@@ -10,7 +10,7 @@ from products import product
 from tcms_utils import get_max_id
 
 # Login to running KIWI server.
-TCMSXmlrpc('plivo', 'root', 'http://127.0.0.1:8000/xml-rpc/')
+TCMSXmlrpc('plivo', 'root', 'http://0.0.0.0:80/xml-rpc/')
 
 
 def _parse_jenkin_output(job_name):

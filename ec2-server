@@ -47,7 +47,7 @@ ssh -i /Users/plivo/Documents/plivo-tcms.pem ubuntu@ec2-54-186-119-200.us-west-2
 ssh -i /Users/plivo/Documents/plivo-tcms.pem ubuntu@ec2-54-186-119-200.us-west-2.compute.amazonaws.com sudo python3  /home/ubuntu/Kiwi/plivo_tcms.py -spreadsheetid_product 1K4sY5CuZQgolm82bfs3MzuaEzrByg2BSruS6UQ5FC5Q sms
 
 copy from local to server:
-scp -i /Users/plivo/Documents/plivo-tcms.pem /Users/plivo/gitrepos/Kiwi/tcms/static/images/kiwi_h20.png ubuntu@ec2-54-186-119-200.us-west-2.compute.amazonaws.com:/home/ubuntu/Kiwi/tcms/static/images/
+scp -i /Users/plivo/Documents/plivo-tcms.pem /Users/plivo/PycharmProjects/Kiwi/tcms/static/images/kiwi_h20.png ubuntu@ec2-54-186-119-200.us-west-2.compute.amazonaws.com:/home/ubuntu/Kiwi/tcms/static/images/
 
 
 
