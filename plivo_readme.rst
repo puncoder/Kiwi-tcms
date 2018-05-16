@@ -83,7 +83,7 @@ Running it on AWS:
 Once you have created the server on aws using above commands n configurations. You can now run it from local
 system using SSH.
 Use a static ip for this.
-  ssh -i /Users/plivo/Documents/plivo-tcms.pem ubuntu@ec2-54-186-119-200.us-west-2.compute.amazonaws.com sudo python3  /home/ubuntu/Kiwi/manage.py runserver 0.0.0.0:80
+  ssh -i /Users/plivo/Documents/plivo-tcms.pem ubuntu@<EC2_Public_DNS> sudo python3  /home/ubuntu/Kiwi/manage.py runserver 0.0.0.0:80
 
 Make sure the port 80 is open.
 
@@ -148,7 +148,7 @@ After adding products and its details on server, it's must to add the details in
 products.py is used to add the default values given in this file for a product while adding test cases,
 test plans and test runs from spreadsheet.
 
-Change status to UN-AUTO:
+Change WAIVED status to UN-AUTO:
 -------------------------
   update test_case_run_status set name='UN-AUTO' where case_run_status_id=8;
 
@@ -189,8 +189,8 @@ create a test run and plan from jenkin_job
 
 Running server from Local using SSH :
 ====================================
-  ssh -i <path_to_pem_file> ubuntu@<EC2_ip:port> sudo python3  /home/ubuntu/Kiwi/manage.py runserver 0.0.0.0:80
+  ssh -i <path_to_pem_file> ubuntu@<EC2_Public_DNS> sudo python3  /home/ubuntu/Kiwi/manage.py runserver 0.0.0.0:80
 
-  ssh -i <path_to_pem_file> ubuntu@<EC2_ip:port> sudo python3  /home/ubuntu/Kiwi/plivo_tcms.py -h
+  ssh -i <path_to_pem_file> ubuntu@<EC2_Public_DNS>sudo python3  /home/ubuntu/Kiwi/plivo_tcms.py -h
 
-  ssh -i <path_to_pem_file> ubuntu@<EC2_ip:port> sudo python3  /home/ubuntu/Kiwi/plivo_tcms.py -spreadsheetid_product 1K4sY5CuZQgolm82bfs3MzuaEzrByg2BSruS6UQ5FC5Q sms
+  ssh -i <path_to_pem_file> ubuntu@<EC2_Public_DNS> sudo python3  /home/ubuntu/Kiwi/plivo_tcms.py -spreadsheetid_product 1K4sY5CuZQgolm82bfs3MzuaEzrByg2BSruS6UQ5FC5Q sms
