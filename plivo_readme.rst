@@ -86,14 +86,18 @@ Use a static ip for this.
   ssh -i /Users/plivo/Documents/plivo-tcms.pem ubuntu@ec2-54-186-119-200.us-west-2.compute.amazonaws.com sudo python3  /home/ubuntu/Kiwi/manage.py runserver 0.0.0.0:80
 
 Make sure the port 80 is open.
+
 Once it starts running, open it from local system using global ip ( make it static ).
 
 
 Configure Site for AWS:
 ----------------------
 To use server from AWS to local, first thing is to configure the site.
+
   Open <ip>:<port>/admin
+
   Go to 'Sites'
+
   Edit the default site value to AWS's static ip.
 
 
