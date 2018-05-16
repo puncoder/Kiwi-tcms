@@ -83,7 +83,7 @@ Running it on AWS:
 Once you have created the server on aws using above commands n configurations. You can now run it from local
 system using SSH.
 Use a static ip for this.
-# Example:
+Example:
   ssh -i /Users/plivo/Documents/plivo-tcms.pem ubuntu@ec2-54-186-119-200.us-west-2.compute.amazonaws.com sudo python3  /home/ubuntu/Kiwi/manage.py runserver 0.0.0.0:80
 
 Make sure the port 80 is open.
@@ -115,18 +115,17 @@ Passing password every-time is not handy, so create .pgpass file for auto authen
 Follow the link :
 https://linuxandryan.wordpress.com/2013/03/07/creating-and-using-a-pgpass-file/
 
-# Take Db dump:
+Take Db dump:
   pg_dump -w -d kiwi -U postgres > kiwi_Db.dump
 
-# Upload the Dump to google drive:
+Upload the Dump to google drive:
   gdrive upload kiwi/kiwi_Db.dump
 
-# upload to specific folder (Folder id need to be passed):
+upload to specific folder (Folder id need to be passed):
   gdrive upload -p 1a7fGTdmdukydMlk7Np6X8ymOmSYNk66U kiwi_Db.dump
 
 To make this process scheduled, keep the commands in crontab, make sure that gdrive path is set in crontab job.
 
-  #!/bin/sh
   PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
   pg_dump -w -d kiwi -U postgres > /home/ubuntu/kiwi_backup/kiwi_Db.dump && gdrive upload  -p   1a7fGTdmdukydMlk7Np6X8ymOmSYNk66U /home/ubuntu/kiwi_backup/kiwi_Db.dump
 
@@ -151,24 +150,24 @@ plivo_tcms commands:
 Once you are in project directory, Run the below command to get the lists and usage of all the commands.
 python3 plivo_tcms.py -h
 
-# command to add test cases from spreadsheet
+command to add test cases from spreadsheet
   python3 plivo_tcms.py -spreadsheetid_product <Spreadsheet_id> <Product>
     Example:
     python3 plivo_tcms.py -spreadsheetid_product 1K4sY5CuZQgolm82bfs3MzuaEzrByg2BSruS6UQ5FC5Q sms
 
 
-# change the status from jenkins_job to specific the test_runs
+change the status from jenkins_job to specific the test_runs
   python3 plivo_tcms.py -jenkins_job <job_name> <test_run_id>
     Example:
     python3 plivo_tcms.py -jenkins_job sms_smoke 15
 
-# change the status from jenkins_job to all the test_runs having same test case
+change the status from jenkins_job to all the test_runs having same test case
   python3 plivo_tcms.py -jenkins_job <job_name>
     Example:
     python3 plivo_tcms.py -jenkins_job sms_smoke
 
 
-# create a test run and plan from jenkin_job :
+create a test run and plan from jenkin_job :
   python3 plivo_tcms.py -add_testcase_from_jenkins <Job_name> <Product> <Plan_name> <Test_run_name>
     Example:
     python3 plivo_tcms.py -add_testcase_from_jenkins sms_smoke sms smoke_plan smoke_run
