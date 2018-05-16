@@ -153,6 +153,11 @@ Change WAIVED status to UN-AUTO:
   update test_case_run_status set name='UN-AUTO' where case_run_status_id=8;
 
 
+Reading Job output from Jenkins:
+--------------------------------
+To read the job output from jenkins, output.xml must be in WS folder ( workspace ).
+  http://jenkins.<URL>.com/job/<job_name>/ws/
+
 plivo_tcms commands:
 --------------------
 Once you are in project directory, Run the below command to get the lists and usage of all the commands.
