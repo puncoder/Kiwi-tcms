@@ -3,10 +3,8 @@ import sys
 import xmltodict
 from time import sleep
 from jenkins_auth import username, password
-from test_plans import test_plans
 from tcms_api.xmlrpc import TCMSXmlrpc
 from tcms_api.mutable import TestRun, TestCaseRunStatus
-from products import product
 from tcms_utils import get_max_id
 
 # Login to running KIWI server.
@@ -165,8 +163,6 @@ def _change_status_all_runs(jenkins_status):
 
                     sleep(0.1)
         except Exception as e:
-            print('Error :: ', e)
-            print('============================================================\n')
             if 'Failed to fetch test run' in str(e):
                 pass
 
@@ -182,7 +178,7 @@ def update_status_from_jenkins(jenkins_job_name, run_id=False):
     flag = True
     i = 1
     while flag:
-        print('iteration :', i)
+        print('Iteration :', i)
         i += 1
         try:
             jenkins_status = _parse_jenkin_output(jenkins_job_name)
@@ -195,7 +191,6 @@ def update_status_from_jenkins(jenkins_job_name, run_id=False):
                 return False
             flag = False
         except OSError:
-            print('OSError.')
             pass
     return True
 

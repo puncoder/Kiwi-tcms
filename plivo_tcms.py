@@ -243,12 +243,9 @@ if __name__ == '__main__':
     parser.add_argument('-spreadsheetid_product', action='store', dest='spreadsheet_product', nargs='+',
                         help='Adds the test cases from google spreadsheet. Pass the spreadsheet id and product name '
                              'product name need to be passed with this arg.')
-
-    parser.add_argument('-cat_id', action='store', dest='category_id',
-                        help='To Add the test cases from google spreadsheet, category id is required.Pass category id.')
-
     parser.add_argument('-jenkins_job', action='store', dest='jenkins_jobs', nargs='+',
-                        help='Updates status from jenkins jobs. Pass the jenkins job name.')
+                        help='Updates status from jenkins jobs. Pass the jenkins job name.\n'
+                             'Pass run id to update directly in one test run id.')
 
     parser.add_argument('-case_ids', action='store', dest='case_run_id',
                         help='Updates status for a range or single Test Case Run id.'
@@ -257,7 +254,7 @@ if __name__ == '__main__':
 
     parser.add_argument('-status', action='store', dest='status',
                         help='Updates status for a range or single Test Case Run id.'
-                             '\nPass the status here. it must be used with -up_case argument.')
+                             '\nPass the status here. it must be used with -case_ids argument.')
 
     parser.add_argument('-add_testcase', action='store', dest='add_testcase', nargs='+',
                         help='This adds the test case for a product.'
