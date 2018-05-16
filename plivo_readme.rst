@@ -115,17 +115,22 @@ Follow the link :
 https://linuxandryan.wordpress.com/2013/03/07/creating-and-using-a-pgpass-file/
 
   Take Db dump ==>
+
   pg_dump -w -d kiwi -U postgres > kiwi_Db.dump
 
   Upload the Dump to google drive ==>
+
   gdrive upload kiwi/kiwi_Db.dump
 
   upload to specific folder (Folder id need to be passed) ==>
+
   gdrive upload -p 1a7fGTdmdukydMlk7Np6X8ymOmSYNk66U kiwi_Db.dump
 
 To make this process scheduled, keep the commands in crontab, make sure that gdrive path is set in crontab job.
 
   PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+
   pg_dump -w -d kiwi -U postgres > /home/ubuntu/kiwi_backup/kiwi_Db.dump && gdrive upload  -p   1a7fGTdmdukydMlk7Np6X8ymOmSYNk66U /home/ubuntu/kiwi_backup/kiwi_Db.dump
 
 How to create crontab? Follow the link:
