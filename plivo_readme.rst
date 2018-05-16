@@ -83,7 +83,6 @@ Running it on AWS:
 Once you have created the server on aws using above commands n configurations. You can now run it from local
 system using SSH.
 Use a static ip for this.
-Example
   ssh -i /Users/plivo/Documents/plivo-tcms.pem ubuntu@ec2-54-186-119-200.us-west-2.compute.amazonaws.com sudo python3  /home/ubuntu/Kiwi/manage.py runserver 0.0.0.0:80
 
 Make sure the port 80 is open.
@@ -93,9 +92,9 @@ Once it starts running, open it from local system using global ip ( make it stat
 Configure Site for AWS:
 ----------------------
 To use server from AWS to local, first thing is to configure the site.
-Open <ip>:<port>/admin
-Go to 'Sites'
-Edit the default site value to AWS's static ip.
+  Open <ip>:<port>/admin
+  Go to 'Sites'
+  Edit the default site value to AWS's static ip.
 
 
 Reading spreadsheet:
@@ -115,13 +114,13 @@ Passing password every-time is not handy, so create .pgpass file for auto authen
 Follow the link :
 https://linuxandryan.wordpress.com/2013/03/07/creating-and-using-a-pgpass-file/
 
-Take Db dump
+  Take Db dump
   pg_dump -w -d kiwi -U postgres > kiwi_Db.dump
 
-Upload the Dump to google drive
+  Upload the Dump to google drive
   gdrive upload kiwi/kiwi_Db.dump
 
-upload to specific folder (Folder id need to be passed)
+  upload to specific folder (Folder id need to be passed)
   gdrive upload -p 1a7fGTdmdukydMlk7Np6X8ymOmSYNk66U kiwi_Db.dump
 
 To make this process scheduled, keep the commands in crontab, make sure that gdrive path is set in crontab job.
