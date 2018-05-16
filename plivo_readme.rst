@@ -155,9 +155,14 @@ Change WAIVED status to UN-AUTO:
 
 Reading Job output from Jenkins:
 --------------------------------
+
 To read the job output from jenkins, output.xml must be in WS folder ( workspace )
+
   http://jenkins.<URL>.com/job/<job_name>/ws/
+
   for now I have kept the QA url only. It can be changed if required
+
+
 plivo_tcms commands:
 --------------------
 Once you are in project directory, Run the below command to get the lists and usage of all the commands.
