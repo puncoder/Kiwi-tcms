@@ -5,18 +5,30 @@ Installation ::
 commands:
 --------
   git clone https://github.com/Coder-AMiT/Kiwi-tcms
+  
   mv Kiwi-tcms Kiwi  
+  
   virtualenv --python=python3.6 ~/virtualenvs/kiwi
+  
   . ~/virtualenvs/kiwi/bin/activate
+  
   cd Kiwi
+  
   sudo pip install -r requirements/mysql.txt
+  
   sudo pip install -r requirements/devel.txt
+  
   sudo pip install -r requirements/postgres.txt
+  
 
   npm install
+  
   ./manage.py migrate
+  
   ./manage.py createsuperuser
+  
   ./manage.py runserver
+  
 
 Now, open http://127.0.0.1:8000/ and should be presented with your brand new Kiwi TCMS homepage!
 
@@ -31,9 +43,13 @@ a minimal configuration file ~/.tcms.conf has to be
 provided in the user home directory:
 
   [tcms]
+  
   url = https://tcms.server/xml-rpc/
+  
   username = your-username
+  
   password = your-password
+  
 
 
 Db Configuration:
@@ -125,10 +141,8 @@ After adding products and its details on server, it's must to add the details in
 products.py is used to add the default values given in this file for a product while adding test cases,
 test plans and test runs from spreadsheet.
 
-
 Change status to UN-AUTO:
 -------------------------
-
 update test_case_run_status set name='UN-AUTO' where case_run_status_id=8;
 
 
@@ -161,3 +175,10 @@ python3 plivo_tcms.py -h
 
 
 
+Running server from Local using SSH :
+====================================
+  ssh -i <path_to_pem_file> ubuntu@<EC2_ip:port> sudo python3  /home/ubuntu/Kiwi/manage.py runserver 0.0.0.0:80
+
+  ssh -i <path_to_pem_file> ubuntu@<EC2_ip:port> sudo python3  /home/ubuntu/Kiwi/plivo_tcms.py -h
+
+  ssh -i <path_to_pem_file> ubuntu@<EC2_ip:port> sudo python3  /home/ubuntu/Kiwi/plivo_tcms.py -spreadsheetid_product 1K4sY5CuZQgolm82bfs3MzuaEzrByg2BSruS6UQ5FC5Q sms
