@@ -185,6 +185,9 @@ def pbuild(request, username, product_id, template_name='profile/product_builds.
     prod[1] = 'SMS'
     prod[2] = 'VOICE'
     prod[3] = 'PLATFORM'
+    prod[4] = 'PHLO'
+    prod[5] = 'DATA'
+    prod[6] = 'CONSOLE'
 
     product = prod[product_id]
 

@@ -36,7 +36,7 @@ def sequential_starter(args):
             print('plan id :: ', plan_id)
 
             testrun_data['plan_id'] = plan_id
-            testrun_data['summary'] = 'TestRun-' + plan
+            testrun_data['summary'] = plan
             testrun_data['notes'] = title
             testrun_data['build_id'] = build_id
             run_id = create_testrun(testrun_data)

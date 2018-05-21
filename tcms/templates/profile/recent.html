@@ -17,7 +17,7 @@
 		<div class="leftlistinfo">
 			<table cellpadding="0" cellspacing="0" class="home_table">
 				<tr>
-					<th colspan="4"><div class="sprites tableheader"> <div class="sprites tableheaderleft">BUILDS</div><div class="sprites tableheaderright"></div></div></th>
+					<th colspan="4"><div class="sprites tableheader"> <div class="sprites tableheaderleft">Test Plans.</div><div class="sprites tableheaderright"></div></div></th>
 				</tr>
 				<!--{% for test_run in all_test_runs %}-->
 				<!--<tr>-->
@@ -80,7 +80,6 @@
 
 				</tr>
 
-
 				<tr class="{% cycle 'odd' 'even' %}">
 					<td height="27"><a class="link" href="{% url "tcms-prod-build-url" username %}2">VOICE</a></td>
 				</tr>
@@ -89,20 +88,29 @@
 					<td height="27"><a class="link" href="{% url "tcms-prod-build-url" username %}3">PLATFORM</a></td>
 				</tr>
 
+                <tr class="{% cycle 'odd' 'even' %}">
+					<td height="27"><a class="link" href="{% url "tcms-prod-build-url" username %}4">PHLO</a></td>
+				</tr>
+
+				<tr class="{% cycle 'odd' 'even' %}">
+					<td height="27"><a class="link" href="{% url "tcms-prod-build-url" username %}5">DATA</a></td>
+
+				</tr>
+
+				<tr class="{% cycle 'odd' 'even' %}">
+					<td height="27"><a class="link" href="{% url "tcms-prod-build-url" username %}6">CONSOLE</a></td>
+				</tr>
+
+
 				<tr>
 					<th colspan="4">
-						{% if test_plans_count %}
 						<div class="sprites tablefooter"> 
-                            <div class="left_float">You manage 3 Products.</div>
+                            <div class="left_float">You manage 6 Products.</div>
 							<div class="sprites tablefooterleft"></div>
 							<div class="sprites tablefooterright"></div>
 						</div>
-						{% else %}
-						<div class="sprites tablefooter">
-							<div class="left_float">You manage 3 Products.</div>
-                            <div class="sprites tablefooterleft"></div>
-						</div>
-						{% endif %}
+
+
 					</th>
 				</tr>
 				</table>
