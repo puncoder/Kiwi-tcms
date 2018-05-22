@@ -39,11 +39,10 @@ class EC2(object):
         """
         # Finding included / excluded instances for this action.
 
-        excluded_instances = include_exclude_instances[self.env]['exclude']
+        excluded_instances = include_exclude_instances[self.env].get('exclude', [])
         print(colored('Excluded instances for the region : "{}" are : {} '.format(self.region, excluded_instances),
                       color='yellow'))
-
-        included_instances = include_exclude_instances[self.env]['include']
+        included_instances = include_exclude_instances[self.env].get('include', [])
         print(colored('Included instances for the region : "{}" are : {} '.format(self.region, included_instances),
                       color='yellow'))
 

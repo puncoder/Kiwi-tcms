@@ -6,7 +6,7 @@ include_exclude_instances ={}
 region = 'us-west-2'
 include_exclude_instances[region] = {}
 include_exclude_instances[region]['region'] = region
-include_exclude_instances[region]['exclude'] = ['plivo']
+# include_exclude_instances[region]['exclude'] = ['plivo']
 
 # region 2
 region = 'us-east-2'

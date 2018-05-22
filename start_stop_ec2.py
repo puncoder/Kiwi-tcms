@@ -9,6 +9,7 @@ if sys.version_info[0] < 3:
 else:
     import configparser as ConfigParser
 
+
 def exec_action(access_key, secret_key, action, env):
     """
     :param access_key:
@@ -46,7 +47,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='EC2 Instance actions')
     parser.add_argument('-e', '--env', required=True,
                         help='Environment to be used')
-
     parser.add_argument('-a', '--action', required=True,
                         help='Action to be specified : start or stop')
 
