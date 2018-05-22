@@ -3,18 +3,34 @@ import datetime
 from termcolor import colored
 from config.ec2_instances import include_exclude_instances
 
+
 class EC2(object):
     """
     EC2 class for plivo EC2 instances action
     """
 
-    def __init__(self, access_key, secret_key, region_name, action, env,):
+    def __init__(self, access_key, secret_key, action, env,):
         self.session = boto3.Session(aws_access_key_id=access_key,
                                      aws_secret_access_key=secret_key)
-        self.ec2_client = self.session.client('ec2', region_name=region_name)
         self.env = env
-        self.region = region_name
         self.action = action
+
+        if self.env in include_exclude_instances:
+            self.region = include_exclude_instances[self.env]['region']
+        else:
+            raise Exception(colored(
+                'Env not found in config file'
+                'for env {}.'.format(self.env),
+                color='red'
+            ))
+        if not self.region:
+            raise Exception(colored(
+                'Region not found in config file'
+                'for env {}.'.format(self.env),
+                color='red'
+            ))
+
+        self.ec2_client = self.session.client('ec2', region_name=self.region)
 
     def exec_ec2_action(self):
         """
@@ -22,17 +38,13 @@ class EC2(object):
         :return: None
         """
         # Finding included / excluded instances for this action.
-        excluded_instances = None
-        included_instances = None
 
-        if self.region in include_exclude_instances:
-            excluded_instances = include_exclude_instances[self.region]['exclude']
-        print(colored('Excluded instances are : {} '.format(list(excluded_instances)),
+        excluded_instances = include_exclude_instances[self.env]['exclude']
+        print(colored('Excluded instances for the region : "{}" are : {} '.format(self.region, excluded_instances),
                       color='yellow'))
 
-        if self.region in include_exclude_instances:
-            included_instances = include_exclude_instances[self.region]['include']
-        print(colored('Included instances are : {} '.format(list(included_instances)),
+        included_instances = include_exclude_instances[self.env]['include']
+        print(colored('Included instances for the region : "{}" are : {} '.format(self.region, included_instances),
                       color='yellow'))
 
         instances = self.get_instance_ids(exclude_instances=excluded_instances,

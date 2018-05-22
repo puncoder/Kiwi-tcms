@@ -13,17 +13,15 @@ from ec2 import EC2
 import constant
 
 
-def exec_action(access_key, secret_key, region, action, env):
+def exec_action(access_key, secret_key, action, env):
     """
-
     :param access_key:
     :param secret_key:
-    :param region: region name
     :param action: start or stop
     :param env: env name
     :return: None
     """
-    ec2 = EC2(access_key, secret_key, region, action, env)
+    ec2 = EC2(access_key, secret_key, action, env)
     ec2.exec_ec2_action()
 
     return None
@@ -51,26 +49,25 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='EC2 Instance actions')
     parser.add_argument('-e', '--env', required=True,
                         help='Environment to be used')
-    parser.add_argument('-r', '--region', required=True,
-                        help='Region in which EC2 to be started/stopped')
+
     parser.add_argument('-a', '--action', required=True,
                         help='Action to be specified : start or stop')
 
     args = parser.parse_args()
 
     try:
-        env, region, action = args.env, args.region, args.action
+        env, action = args.env, args.action
     except TypeError:
         raise ValueError('Not enough arguments provided')
-    print(colored('All inputs provided are environment : {}, region name : {} '
-                  '&  action : {} '.format(env, region, action),
+    print(colored('All inputs provided are environment : {} '
+                  '&  action : {} '.format(env, action),
                   color='green'))
 
     access_key, secret_key = parse_env(env)
 
-    exec_action(access_key, secret_key, region, action, env)
+    exec_action(access_key, secret_key, action, env)
 
 
 # Made it compatible for both versions of python.
-# python start_stop_ec2.py -a start -r us-west-2 -e plivo-tcms
-# python3 start_stop_ec2.py -a start -r us-west-2 -e plivo-tcms
+# python start_stop_ec2.py -a start -e plivo-tcms
+# python3 start_stop_ec2.py -a start -e plivo-tcms
