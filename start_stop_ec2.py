@@ -1,17 +1,13 @@
 import sys
-if sys.version_info[0] < 3:
-    import ConfigParser
-    config_parser = ConfigParser.ConfigParser()
-else:
-    import configparser
-    config_parser = configparser.ConfigParser()
 import argparse
-
 from termcolor import colored
-
 from ec2 import EC2
 import constant
 
+if sys.version_info[0] < 3:
+    import ConfigParser
+else:
+    import configparser as ConfigParser
 
 def exec_action(access_key, secret_key, action, env):
     """
@@ -33,6 +29,7 @@ def parse_env(env):
     :param env:  Which env to be used
     :return: tuple of access key and secret key
     """
+    config_parser = ConfigParser.ConfigParser()
     config_parser.read(constant.env_file)
     try:
         access_key, secret_key = config_parser.get(env, 'aws_access_key_id'), \
