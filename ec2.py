@@ -55,11 +55,11 @@ class EC2(object):
                                        instance_names, instance_ids),
                       color='cyan'))
         if self.action.lower() == 'start':
-            print(colored('Starting instances {} '.format(instance_names),
+            print(colored('Starting instances : {} '.format(instance_names),
                           color='blue'))
             self.ec2_client.start_instances(InstanceIds=instance_ids)
         elif self.action.lower() == 'stop':
-            print(colored('Stoping instances {} '.format(instance_names),
+            print(colored('Stoping instances : {} '.format(instance_names),
                           color='blue'))
             self.ec2_client.stop_instances(InstanceIds=instance_ids)
         else:
