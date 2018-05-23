@@ -9,9 +9,8 @@ class EC2(object):
     EC2 class for plivo EC2 instances action
     """
 
-    def __init__(self, access_key, secret_key, action, env,):
-        self.session = boto3.Session(aws_access_key_id=access_key,
-                                     aws_secret_access_key=secret_key)
+    def __init__(self, action, env,):
+        self.session = boto3.Session(profile_name=env)
         self.env = env
         self.action = action
 

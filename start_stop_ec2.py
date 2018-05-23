@@ -1,16 +1,9 @@
-import sys
 import argparse
 from termcolor import colored
 from ec2 import EC2
-import constant
-
-if sys.version_info[0] < 3:
-    import ConfigParser
-else:
-    import configparser as ConfigParser
 
 
-def exec_action(access_key, secret_key, action, env):
+def exec_action(action, env):
     """
     :param access_key:
     :param secret_key:
@@ -18,35 +11,16 @@ def exec_action(access_key, secret_key, action, env):
     :param env: env name
     :return: None
     """
-    ec2 = EC2(access_key, secret_key, action, env)
+    ec2 = EC2(action, env)
     ec2.exec_ec2_action()
 
     return None
 
 
-def parse_env(env):
-    """
-
-    :param env:  Which env to be used
-    :return: tuple of access key and secret key
-    """
-    config_parser = ConfigParser.ConfigParser()
-    config_parser.read(constant.env_file)
-    try:
-        access_key, secret_key = config_parser.get(env, 'aws_access_key_id'), \
-                                 config_parser.get(env,
-                                                   'aws_secret_access_key')
-    except ConfigParser.NoSectionError:
-        raise Exception(colored('No such environement {} keys entries found '.
-                                format(env), color='red'))
-
-    return access_key, secret_key
-
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='EC2 Instance actions')
     parser.add_argument('-e', '--env', required=True,
-                        help='Environment to be used')
+                        help='Environment/Profile to be used')
     parser.add_argument('-a', '--action', required=True,
                         help='Action to be specified : start or stop')
 
@@ -60,9 +34,7 @@ if __name__ == '__main__':
                   '&  action : {} '.format(env, action),
                   color='green'))
 
-    access_key, secret_key = parse_env(env)
-
-    exec_action(access_key, secret_key, action, env)
+    exec_action(action, env)
 
 
 # Made it compatible for both versions of python.
