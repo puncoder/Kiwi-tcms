@@ -197,6 +197,7 @@ create a test run and plan from jenkin_job
 
 
 
+
 Running server from Local using SSH :
 ====================================
   ssh -i <path_to_pem_file> ubuntu@<EC2_Public_DNS> sudo python3  /home/ubuntu/Kiwi/manage.py runserver 0.0.0.0:80
