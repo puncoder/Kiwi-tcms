@@ -74,7 +74,7 @@ def parse_spreadsheet(spreadsheet_id):
                 test_case = ''
                 note = ''
                 exp_output = ''
-                status = 'run'
+                status = 'idle'
 
                 if not row:
                     continue
