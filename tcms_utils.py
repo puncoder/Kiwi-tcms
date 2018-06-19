@@ -28,9 +28,20 @@ def get_max_id():
         output = cur.fetchone()[0]
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
-    finally:
-        if conn is not None:
-            conn.close()
+
+    return output
+
+
+def get_products():
+    sql = """select id, name from products;"""
+    output = None
+
+    try:
+        cur.execute(sql)
+        # get the data as tuple
+        output = cur.fetchall()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
 
     return output
 
@@ -45,9 +56,6 @@ def get_running_test_runs():
         output = cur.fetchall()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
-    finally:
-        if conn is not None:
-            conn.close()
 
     return output
 
@@ -62,9 +70,6 @@ def get_finished_test_runs():
         output = cur.fetchall()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
-    finally:
-        if conn is not None:
-            conn.close()
 
     return output
 

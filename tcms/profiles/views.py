@@ -20,6 +20,7 @@ from tcms.testruns.models import TestRun
 from tcms.profiles.models import Bookmark
 from tcms.profiles.models import UserProfile
 from tcms.profiles.forms import BookmarkForm, UserProfileForm
+from tcms_utils import get_products
 
 
 @require_http_methods(['GET', 'POST'])
@@ -136,6 +137,8 @@ def recent(request, username, template_name='profile/recent.html'):
     # My codes
     all_builds = {run.build for run in all_test_runs}
     build_count = len(all_builds)
+    all_products = get_products()
+    product_count = len(all_products)
 
     context_data = {
         'user_profile': up,
@@ -147,6 +150,8 @@ def recent(request, username, template_name='profile/recent.html'):
         'all_builds': all_builds,
         'build_count': build_count,
         'username': str(username),
+        'products': all_products,
+        'product_count': product_count,
     }
     return render(request, template_name, context_data)
 
