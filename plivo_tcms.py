@@ -1,5 +1,5 @@
 # Plivo Test Case Management System
-import sys
+
 from products import product
 import argparse
 from spreadsheet_reader import parse_spreadsheet
@@ -9,8 +9,8 @@ from tcms_utils import add_testcase_to_run, update_case_run_id_status, create_te
 
 from update_status_from_jenkins import update_status_from_jenkins, change_status_from_run, _parse_jenkin_output
 
-
 def sequential_starter(args):
+
     if args.spreadsheet_product:
         if len(args.spreadsheet_product) == 2:
             spreadsheet_id = args.spreadsheet_product[0]
@@ -188,27 +188,35 @@ def sequential_starter(args):
 
     if args.add_testcase_jenkins:
         argv = args.add_testcase_jenkins
-        if len(argv) != 4:
-            raise Exception('Please pass Exactly 4 arguments. jenkins_job_name, product, plan name, testrun name.')
+        if len(argv) != 5:
+            raise Exception('Please pass Exactly 5 arguments. jenkins_job_name, product, plan name, testrun name and'
+                            'Build name.')
 
         job_name = argv[0]
         product_name = argv[1].upper()
         plan_name = argv[2]
         testrun_name = argv[3]
+        build_name = argv[4]
 
         jenkins_data = _parse_jenkin_output(job_name)
 
         # all_testcases = [case.strip() for key, val in jenkins_data.items() for case in val['testcase']]
+        # creating build
+        build_data = product[product_name].copy()
+        build_data['build_name'] = build_name
+        build_id = create_build(build_data)
 
         plan_data = product[product_name].copy()
         testrun_data = product[product_name].copy()
         plan_data['name'] = plan_name
+        plan_data['build_id'] = build_id
 
         plan_id = create_test_plan(plan_data)
         print('plan id :: ', plan_id)
 
         testrun_data['plan_id'] = plan_id
         testrun_data['summary'] = testrun_name
+        testrun_data['build_id'] = build_id
         run_id = create_testrun(testrun_data)
         print('test run id ::', run_id)
 
@@ -240,33 +248,33 @@ def sequential_starter(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-spreadsheetid_product', action='store', dest='spreadsheet_product', nargs='+',
-                        help='Adds the test cases from google spreadsheet. Pass the spreadsheet id and product name '
-                             'product name need to be passed with this arg.')
-    parser.add_argument('-jenkins_job', action='store', dest='jenkins_jobs', nargs='+',
+    parser.add_argument('-add_from_spreadsheet', action='store', dest='spreadsheet_product', nargs='+',
+                        help='Adds the test cases from google spreadsheet. Pass the spreadsheet id and product name')
+
+    parser.add_argument('-update_from_jenkins', action='store', dest='jenkins_jobs', nargs='+',
                         help='Updates status from jenkins jobs. Pass the jenkins job name.\n'
                              'Pass run id to update directly in one test run id.')
+
+    parser.add_argument('-add_from_jenkins', action='store', dest='add_testcase_jenkins', nargs='+',
+                        help='This adds the test cases from a jenkins job .'
+                             'Need to pass jenkins_job_name, product_name, plan_name , testrun_name and build_name '
+                             'with this arg.'
+                             'format ::\n -add_testcase_from_jenkins <jenkins_job_name> '
+                             '<product_name> <plan_name> <testrun_name> <build_name>')
+
+    parser.add_argument('-status', action='store', dest='status',
+                        help='Updates status for a range or single Test Case Run id.'
+                             '\nPass the status here. it must be used with -case_ids argument.')
 
     parser.add_argument('-case_ids', action='store', dest='case_run_id',
                         help='Updates status for a range or single Test Case Run id.'
                              '\nPass either single integer or range of integers separated by -'
                              '\nMust be used with -status argument.')
 
-    parser.add_argument('-status', action='store', dest='status',
-                        help='Updates status for a range or single Test Case Run id.'
-                             '\nPass the status here. it must be used with -case_ids argument.')
-
     parser.add_argument('-add_testcase', action='store', dest='add_testcase', nargs='+',
                         help='This adds the test case for a product.'
                              'Need to pass Test Case Name, Category id, and Notes with this arg.\n'
                              'format ::\n -add_testcase name="test case name" cat_id=category id notes="add notes" ')
-
-    parser.add_argument('-add_testcase_from_jenkins', action='store', dest='add_testcase_jenkins', nargs='+',
-                        help='This adds the test cases from a jenkins job .'
-                             'Need to pass jenkins_job_name, product_name, plan_name and testrun_name with this arg.\n'
-                             'format ::\n -add_testcase_from_jenkins <jenkins_job_name> '
-                             '<product_name> <plan_name> <testrun_name>')
-
     parser.add_argument('-set_running', action='store', dest='set_running',
                         help='This sets the Test Run to Running. Pass the Test Run id')
 

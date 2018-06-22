@@ -11,7 +11,8 @@ immutable_objects = dir(tcms_api.immutable)
 
 # pass the credential of your running instance.
 # Username, password, kiwi-server/xml-rpc
-TCMSXmlrpc('plivo', 'root', 'http://0.0.0.0:80/xml-rpc/')
+# TCMSXmlrpc('plivo', 'root', 'http://0.0.0.0:80/xml-rpc/')
+TCMSXmlrpc('plivo', 'root', 'http://127.0.0.1:8000/xml-rpc/')
 
 
 def change_status(args):
@@ -56,36 +57,6 @@ def change_status(args):
 
     print('\n============================================================\n')
 
-    # print('===========================')
-    # _status = {}
-    # for i in range(1,9):
-    #     _status[i] = str(TestCaseRunStatus(i))
-    #
-    # print(_status)
-
-
-    # print('\n================= RUN PLAN ATTRIB ==========================\n')
-    #
-    # for funct in immutable_objects:
-    #     try:
-    #         method = getattr(tcms_api.immutable, funct)
-    #         test_data[funct] = str(method(plan_id))
-    #
-    #     except Exception as e:
-    #         pass
-    #
-    #
-    # for key, val in test_data.items():
-    #     print(key, "::", val)
-    #
-    # print('\n============================================================\n')
-
-    # print('===========================')
-    # _status = {}
-    # for i in range(1,9):
-    #     _status[i] = str(TestCaseRunStatus(i))
-    #
-    # print(_status)
 
 if __name__ == '__main__':
     change_status(sys.argv)
