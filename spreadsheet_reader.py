@@ -65,7 +65,7 @@ def parse_spreadsheet(spreadsheet_id):
 
     for sheet in sh.worksheets():
         values = sheet.get_all_values()
-        plan = None
+        plan = title
         if not values:
             raise Exception('No data found.')
         else:
@@ -82,6 +82,8 @@ def parse_spreadsheet(spreadsheet_id):
                 try:
                     if row[0]:
                         plan = row[0]
+                        data_dict[plan] = {}
+                    if plan == title and plan not in data_dict:
                         data_dict[plan] = {}
                     data = row[1:]
                     if not data[0]:
@@ -104,5 +106,5 @@ def parse_spreadsheet(spreadsheet_id):
 
 
 if __name__ == '__main__':
-    spreadsheet_Id = sys.argv[1]
+    spreadsheet_Id = '1K4sY5CuZQgolm82bfs3MzuaEzrByg2BSruS6UQ5FC5Q'
     spreadsheet_data = parse_spreadsheet(spreadsheet_Id)

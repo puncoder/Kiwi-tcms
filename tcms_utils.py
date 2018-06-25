@@ -32,6 +32,20 @@ def get_max_id():
     return output
 
 
+def get_auth_user():
+    sql = """select id,username,first_name,last_name,email,is_superuser,is_active from auth_user;"""
+    output = None
+
+    try:
+        cur.execute(sql)
+        # get the data as tuple
+        output = cur.fetchall()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+
+    return output
+
+
 def get_products():
     sql = """select id, name from products;"""
     output = None

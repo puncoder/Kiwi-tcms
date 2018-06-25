@@ -1,5 +1,5 @@
 # Plivo Test Case Management System
-
+import sys
 from products import product
 import argparse
 from spreadsheet_reader import parse_spreadsheet
@@ -9,6 +9,7 @@ from tcms_utils import add_testcase_to_run, update_case_run_id_status, create_te
 
 from update_status_from_jenkins import update_status_from_jenkins, change_status_from_run, _parse_jenkin_output
 
+print('started..')
 def sequential_starter(args):
 
     if args.spreadsheet_product:
@@ -275,6 +276,8 @@ if __name__ == '__main__':
                         help='This adds the test case for a product.'
                              'Need to pass Test Case Name, Category id, and Notes with this arg.\n'
                              'format ::\n -add_testcase name="test case name" cat_id=category id notes="add notes" ')
+
+    #
     parser.add_argument('-set_running', action='store', dest='set_running',
                         help='This sets the Test Run to Running. Pass the Test Run id')
 

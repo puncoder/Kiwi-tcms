@@ -35,9 +35,7 @@ DATABASES = {
 
 
 # Administrators error report email settings
-ADMINS = [
-    # ('Your Name', 'your_email@example.com'),
-]
+ADMINS = [('Amit', 'amityadav@plivo.com'),]
 
 
 # Email settings
