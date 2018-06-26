@@ -1,12 +1,8 @@
 # https://developers.google.com/sheets/api/quickstart/python
 
 from __future__ import print_function
-import httplib2
 import os
-import sys
 import gspread
-
-from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
@@ -57,11 +53,13 @@ def parse_spreadsheet(spreadsheet_id):
     students in a sample spreadsheet:
     https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
     """
+    print('Reading spreadsheet.')
     credentials = get_credentials()
     gc = gspread.authorize(credentials)
     sh = gc.open_by_key(spreadsheet_id)
     title = sh.title
     data_dict = {}
+    print(title)
 
     for sheet in sh.worksheets():
         values = sheet.get_all_values()
@@ -82,8 +80,7 @@ def parse_spreadsheet(spreadsheet_id):
                 try:
                     if row[0]:
                         plan = row[0]
-                        data_dict[plan] = {}
-                    if plan == title and plan not in data_dict:
+                    if plan not in data_dict:
                         data_dict[plan] = {}
                     data = row[1:]
                     if not data[0]:
@@ -101,10 +98,10 @@ def parse_spreadsheet(spreadsheet_id):
                 data_dict[plan][test_case]['note'] = note
                 data_dict[plan][test_case]['exp_output'] = exp_output
                 data_dict[plan][test_case]['status'] = status
-
+    print(data_dict,title)
     return data_dict, title
 
 
 if __name__ == '__main__':
-    spreadsheet_Id = '1K4sY5CuZQgolm82bfs3MzuaEzrByg2BSruS6UQ5FC5Q'
+    spreadsheet_Id = 'SpreadSheetId'
     spreadsheet_data = parse_spreadsheet(spreadsheet_Id)

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from plivo.send_mail import send_mail
 import datetime
 import json
 import itertools
@@ -127,10 +127,12 @@ def create_testcase(request, form, tp):
     # Assign the case to the plan
     if tp:
         tc.add_to_plan(plan=tp)
+        send_mail(tp=tp, tc=tc, user=request.user)
 
     # Add components into the case
     for component in form.cleaned_data['component']:
         tc.add_component(component=component)
+
     return tc
 
 

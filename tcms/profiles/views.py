@@ -20,7 +20,7 @@ from tcms.testruns.models import TestRun
 from tcms.profiles.models import Bookmark
 from tcms.profiles.models import UserProfile
 from tcms.profiles.forms import BookmarkForm, UserProfileForm
-from tcms_utils import get_products
+from plivo.tcms_utils import get_products
 
 
 @require_http_methods(['GET', 'POST'])

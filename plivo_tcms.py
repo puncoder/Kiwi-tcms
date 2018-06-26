@@ -1,15 +1,16 @@
 # Plivo Test Case Management System
-import sys
-from products import product
+from plivo.products import product
 import argparse
-from spreadsheet_reader import parse_spreadsheet
-from tcms_utils import add_testcase_to_run, update_case_run_id_status, create_testcase, \
+from plivo.spreadsheet_reader import parse_spreadsheet
+from plivo.tcms_utils import add_testcase_to_run, update_case_run_id_status, create_testcase, \
     set_run_status, get_running_test_runs, close_conn, get_finished_test_runs, create_test_plan, create_testrun, \
     add_testcase_to_plan, create_build
 
-from update_status_from_jenkins import update_status_from_jenkins, change_status_from_run, _parse_jenkin_output
+from plivo.update_status_from_jenkins import update_status_from_jenkins, change_status_from_run, _parse_jenkin_output
 
 print('started..')
+
+
 def sequential_starter(args):
 
     if args.spreadsheet_product:
@@ -19,7 +20,7 @@ def sequential_starter(args):
 
         else:
             raise Exception('Please pass exactly two params, spreadsheet id and product_name.')
-
+        print('Adding from Spreadsheet.')
         data_dict, title = parse_spreadsheet(spreadsheet_id)
         rows = 0
         # creating build

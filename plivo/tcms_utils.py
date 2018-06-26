@@ -1,5 +1,4 @@
 import psycopg2
-from products import product
 hostname = 'localhost'
 username = 'postgres'
 password = 'root'
@@ -394,3 +393,6 @@ if __name__ == '__main__':
     # print('Running testruns :: ', create_testcase())
     # print('Rows ::', set_status(2,1))
     # print('Running testruns :: ', running_test_runs())
+
+    # breakdown = Details
+    # actions = Steps to Execute
