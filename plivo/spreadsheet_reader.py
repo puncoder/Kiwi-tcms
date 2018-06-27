@@ -64,6 +64,7 @@ def parse_spreadsheet(spreadsheet_id):
     for sheet in sh.worksheets():
         values = sheet.get_all_values()
         plan = title
+        component = ''
         if not values:
             raise Exception('No data found.')
         else:
@@ -72,14 +73,13 @@ def parse_spreadsheet(spreadsheet_id):
                 test_case = ''
                 note = ''
                 exp_output = ''
-                status = 'idle'
+                status = 'UNAUTO'
 
                 if not row:
                     continue
 
                 try:
-                    if row[0]:
-                        plan = row[0]
+                    component = row[0] or component
                     if plan not in data_dict:
                         data_dict[plan] = {}
                     data = row[1:]
@@ -98,7 +98,8 @@ def parse_spreadsheet(spreadsheet_id):
                 data_dict[plan][test_case]['note'] = note
                 data_dict[plan][test_case]['exp_output'] = exp_output
                 data_dict[plan][test_case]['status'] = status
-    print(data_dict,title)
+                data_dict[plan][test_case]['component'] = component
+
     return data_dict, title
 
 

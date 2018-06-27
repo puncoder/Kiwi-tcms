@@ -4,14 +4,13 @@ import argparse
 from plivo.spreadsheet_reader import parse_spreadsheet
 from plivo.tcms_utils import add_testcase_to_run, update_case_run_id_status, create_testcase, \
     set_run_status, get_running_test_runs, close_conn, get_finished_test_runs, create_test_plan, create_testrun, \
-    add_testcase_to_plan, create_build
+    add_testcase_to_plan, create_build, create_component, add_component
 
 from plivo.update_status_from_jenkins import update_status_from_jenkins, change_status_from_run, _parse_jenkin_output
 
-print('started..')
-
 
 def sequential_starter(args):
+    print('started..')
 
     if args.spreadsheet_product:
         if len(args.spreadsheet_product) == 2:
@@ -28,6 +27,7 @@ def sequential_starter(args):
         build_data['build_name'] = title
         build_id = create_build(build_data)
 
+        component_data = {}
         for plan, data in data_dict.items():
             print('plan ::', plan)
             plan_data = product[product_name].copy()
@@ -56,6 +56,7 @@ def sequential_starter(args):
                 testcase_data['plan_id'] = plan_id
                 testcase_data['exp_out'] = ''.join(['<p>'+line+'</p>' for line in case_data['exp_output'].split('\n')])
                 testcase_data['status'] = case_data['status']
+                testcase_data['component'] = case_data['component']
                 row, case_id = create_testcase(testcase_data)
                 testcase_data['case_id'] = case_id
 
@@ -69,6 +70,16 @@ def sequential_starter(args):
                 testcase_data['case_id'] = case_id
                 testcase_data['notes'] = title
                 row, case_id = add_testcase_to_run(testcase_data)
+
+                if testcase_data['component']:
+                    print('create component.')
+
+                    testcase_data['component_id'] = create_component(testcase_data)
+
+                    print('Add to the component.')
+
+                    add_component(testcase_data)
+
                 rows += row
             print('===============================')
 

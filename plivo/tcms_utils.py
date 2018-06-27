@@ -292,6 +292,7 @@ def create_build(build_data):
     sql = '''select build_id from test_builds where name='{build_name}' and product_id={product_id};'''
     cur.execute(sql.format(**build_data))
     if cur.rowcount == 1:
+        print('Build already exists with same name.')
         return cur.fetchone()[0]
 
     print('creating new build...')
@@ -316,6 +317,65 @@ def create_build(build_data):
     except (Exception, psycopg2.DatabaseError) as error:
         raise Exception (error)
     return build_data['build_id']
+
+
+def create_component(data):
+    """creates test component for a product for a test run and returns id"""
+
+    # Checking if the build is already there for the product.
+    sql = '''select id from components where name='{component}' and product_id={product_id};'''
+    cur.execute(sql.format(**data))
+    if cur.rowcount == 1:
+        print('Component already exists with same name for the product.')
+        return cur.fetchone()[0]
+
+    print('creating new component...')
+    max_id = """select nextval('components_id_seq');"""
+    sql = """insert into components values({component_id},'{component}', '{component}' ,NULL,NULL,{product_id});"""
+
+    try:
+        # get the max id
+        cur.execute(max_id)
+        try:
+            data['component_id'] = cur.fetchone()[0]
+        except Exception as e:
+            data['component_id'] = 1
+        print(data)
+        # execute the insert  statement
+        cur.execute(sql.format(**data))
+        conn.commit()
+        rows = cur.rowcount
+        # Close communication with the PostgreSQL database
+
+    except (Exception, psycopg2.DatabaseError) as error:
+        raise Exception (error)
+    return data['component_id']
+
+
+def add_component(data):
+    """Adds component to Test case."""
+
+    print('Adding component to test case...')
+    max_id = """select nextval('test_case_components_id_seq');"""
+    sql = """insert into test_case_components values({id}, {case_id}, {component_id});"""
+
+    try:
+        # get the max id
+        cur.execute(max_id)
+        try:
+            data['id'] = cur.fetchone()[0]
+        except Exception as e:
+            data['id'] = 1
+        print(data)
+        # execute the insert  statement
+        cur.execute(sql.format(**data))
+        conn.commit()
+        rows = cur.rowcount
+        # Close communication with the PostgreSQL database
+
+    except (Exception, psycopg2.DatabaseError) as error:
+        raise Exception (error)
+    return data['id']
 
 
 def create_test_plan(testplan_data):
