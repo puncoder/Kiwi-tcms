@@ -2,6 +2,7 @@
 from plivo.products import product
 import argparse
 from robot.api import TestData
+import os
 from os import listdir
 from os.path import isfile, join, isdir, basename, normpath
 from plivo.spreadsheet_reader import parse_spreadsheet
@@ -264,7 +265,6 @@ def sequential_starter(args):
         argv = args.add_from_robot
         if len(argv) != 3:
             raise Exception('Please pass exactly Three argument,Product, Build Name and Folder path.')
-        robot_data = dict()
         product_name = argv[0].upper()
         build_name = argv[1].upper()
         path_ = argv[2]
@@ -274,6 +274,11 @@ def sequential_starter(args):
         if not isdir(path_):
             raise Exception('[Error] Folder not found.  ', path_)
 
+        # update Git Repo before process
+        _PATH = os.getcwd()
+        os.chdir('/home/ubuntu/QATools')
+        os.system('git pull')
+        os.chdir(_PATH)
         robot_files = [file for file in listdir(path_) if str(file).lower().endswith('.robot')]
         if not robot_files:
             raise Exception('[Error] No robot file in the folder.', path_)
@@ -406,7 +411,7 @@ if __name__ == '__main__':
 
     # close the running Db connection.
     close_conn()
-    print('Process Completed.')
+
 
 
 
