@@ -276,6 +276,7 @@ def sequential_starter(args):
         # update Git Repo before process
         _PATH = os.getcwd()
         os.chdir('/home/ubuntu/QATools')
+        print('Updating master from Git...')
         os.system('git pull')
         os.chdir(_PATH)
         robot_files = [file for file in listdir(path_) if str(file).lower().endswith('.robot')]
