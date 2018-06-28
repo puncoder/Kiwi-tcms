@@ -265,8 +265,8 @@ def sequential_starter(args):
         if len(argv) != 3:
             raise Exception('Please pass exactly Three argument,Product, Build Name and Folder path.')
         robot_data = dict()
-        product_name = argv[0]
-        build_name = argv[1]
+        product_name = argv[0].upper()
+        build_name = argv[1].upper()
         path_ = argv[2]
         if product_name not in product:
             raise Exception('[Error] Product not found :', product_name)
@@ -325,7 +325,7 @@ def sequential_starter(args):
                 print('Adding test case to test run.')
                 testcase_data['run_id'] = run_id
                 testcase_data['case_id'] = case_id
-                testcase_data['status'] = 'Idle'
+                testcase_data['status'] = 'unauto'
                 row, case_id = add_testcase_to_run(testcase_data)
                 rows += row
 
