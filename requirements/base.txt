@@ -14,3 +14,12 @@ beautifulsoup4
 django-contrib-comments
 html2text
 django-modern-rpc
+oauth2client
+gspread
+robotframework
+termcolor
+boto3
+smtplib
+email
+requests
+xmltodict

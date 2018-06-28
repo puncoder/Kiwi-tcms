@@ -1,6 +1,9 @@
 # Plivo Test Case Management System
 from plivo.products import product
 import argparse
+from robot.api import TestData
+from os import listdir
+from os.path import isfile, join, isdir, basename, normpath
 from plivo.spreadsheet_reader import parse_spreadsheet
 from plivo.tcms_utils import add_testcase_to_run, update_case_run_id_status, create_testcase, \
     set_run_status, get_running_test_runs, close_conn, get_finished_test_runs, create_test_plan, create_testrun, \
@@ -10,7 +13,7 @@ from plivo.update_status_from_jenkins import update_status_from_jenkins, change_
 
 
 def sequential_starter(args):
-    print('started..')
+    print('Process Started..')
 
     if args.spreadsheet_product:
         if len(args.spreadsheet_product) == 2:
@@ -136,7 +139,7 @@ def sequential_starter(args):
                 start = stop = int(argv[1])
 
         except ValueError:
-            raise Exception('Please pass integers for run_id and case_id.')
+            raise ValueError('Please pass integers for run_id and case_id.')
 
         for case_id in range(start, stop + 1):
             try:
@@ -255,7 +258,78 @@ def sequential_starter(args):
                 row, case_id = add_testcase_to_run(testcase_data)
                 rows += row
 
-        print('Rows updated ::', rows)
+        print('Test Case Added. ::', rows)
+
+    if args.add_from_robot:
+        argv = args.add_from_robot
+        if len(argv) != 3:
+            raise Exception('Please pass exactly Three argument,Product, Build Name and Folder path.')
+        robot_data = dict()
+        product_name = argv[0]
+        build_name = argv[1]
+        path_ = argv[2]
+        if product_name not in product:
+            raise Exception('[Error] Product not found :', product_name)
+
+        if not isdir(path_):
+            raise Exception('[Error] Folder not found.  ', path_)
+
+        robot_files = [file for file in listdir(path_) if str(file).lower().endswith('.robot')]
+        if not robot_files:
+            raise Exception('[Error] No robot file in the folder.', path_)
+        print('Number of Robot files :', len(robot_files))
+
+        # creating build
+        print('creating Test Build..')
+        build_data = product[product_name].copy()
+        plan_data = product[product_name].copy()
+        testrun_data = product[product_name].copy()
+
+        build_data['build_name'] = build_name
+        build_id = create_build(build_data)
+
+        # creating plan
+        print('creating Test Plan..')
+        plan = basename(normpath(path_))
+        plan_data['name'] = plan
+        plan_data['build_id'] = build_id
+        plan_id = create_test_plan(plan_data)
+        print('plan id :: ', plan_id)
+
+        # create test run
+        print('creating Test Run..')
+        testrun_data['plan_id'] = plan_id
+        testrun_data['summary'] = plan
+        testrun_data['build_id'] = build_id
+        run_id = create_testrun(testrun_data)
+        print('test run id ::', run_id)
+
+        # Create test cases.
+        print('creating test cases..')
+        rows = 0
+        for robot_file in robot_files:
+            suite = TestData(source=join(path_, robot_file))
+            for test in suite.testcase_table:
+                case = str(test.name).replace("'", "''")
+                print('Test case ===>', case)
+                testcase_data = product[product_name].copy()
+                testcase_data['test_case_name'] = case
+                testcase_data['notes'] = plan
+                testcase_data['plan_id'] = plan_id
+                row, case_id = create_testcase(testcase_data)
+                testcase_data['case_id'] = case_id
+
+                print('Adding test case to plan.')
+                row, id = add_testcase_to_plan(testcase_data)
+
+                print('Adding test case to test run.')
+                testcase_data['run_id'] = run_id
+                testcase_data['case_id'] = case_id
+                testcase_data['status'] = 'Idle'
+                row, case_id = add_testcase_to_run(testcase_data)
+                rows += row
+
+        print('Test Case Added ::', rows)
 
 
 if __name__ == '__main__':
@@ -269,6 +343,12 @@ if __name__ == '__main__':
                              'Pass run id to update directly in one test run id.')
 
     parser.add_argument('-add_from_jenkins', action='store', dest='add_testcase_jenkins', nargs='+',
+                        help='This adds the test cases from a jenkins job .'
+                             'Need to pass jenkins_job_name, product_name, plan_name , testrun_name and build_name '
+                             'with this arg.'
+                             'format ::\n -add_testcase_from_jenkins <jenkins_job_name> '
+                             '<product_name> <plan_name> <testrun_name> <build_name>')
+    parser.add_argument('-add_from_robot', action='store', dest='add_from_robot', nargs='+',
                         help='This adds the test cases from a jenkins job .'
                              'Need to pass jenkins_job_name, product_name, plan_name , testrun_name and build_name '
                              'with this arg.'
@@ -320,9 +400,13 @@ if __name__ == '__main__':
             flag = False
         except OSError:
             pass
+        except Exception as e:
+            print(e)
+            flag = False
 
     # close the running Db connection.
     close_conn()
+    print('Process Completed.')
 
 
 
