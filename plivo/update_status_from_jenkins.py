@@ -1,15 +1,25 @@
 import requests
 import sys
+import os
+import json
 import xmltodict
 from time import sleep
 from tcms_api.xmlrpc import TCMSXmlrpc
 from tcms_api.mutable import TestRun, TestCaseRunStatus
 from plivo.tcms_utils import get_max_id
-from plivo.jenkins_auth import username, password
 
 # Login to running KIWI server.
 TCMSXmlrpc('plivo', 'root', 'http://127.0.0.1:8000/xml-rpc/')
 # TCMSXmlrpc('plivo', 'root', 'http://0.0.0.0:80/xml-rpc/')
+
+# Authenticating Jenkins
+home_dir = os.path.expanduser('~')
+credential_dir = os.path.join(home_dir, '.credentials')
+credential_path = os.path.join(credential_dir, 'plivo_auth.json')
+file = open(credential_path)
+credentials = json.loads(file.read())
+username, password = credentials['jenkins_id'], credentials['jenkins_password']
+file.close()
 
 
 def _parse_jenkin_output(job_name):

@@ -31,7 +31,6 @@ def sequential_starter(args):
         build_data['build_name'] = title
         build_id = create_build(build_data)
 
-        component_data = {}
         for plan, data in data_dict.items():
             print('plan ::', plan)
             plan_data = product[product_name].copy()
@@ -403,14 +402,14 @@ if __name__ == '__main__':
         try:
             sequential_starter(results)
             flag = False
-        except OSError:
-            pass
+        except OSError as e:
+            raise OSError(e)
         except Exception as e:
-            print(e)
-            flag = False
+            raise Exception(e)
+        finally:
+            close_conn()
 
-    # close the running Db connection.
-    close_conn()
+
 
 
 

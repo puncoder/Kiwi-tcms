@@ -1,8 +1,18 @@
 import smtplib
+import os
+import json
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from plivo.gmail_auth import username,  password
 from plivo.product_managers import managers
+
+# Authenticating Gmail
+home_dir = os.path.expanduser('~')
+credential_dir = os.path.join(home_dir, '.credentials')
+credential_path = os.path.join(credential_dir, 'plivo_auth.json')
+file = open(credential_path)
+credentials = json.loads(file.read())
+username, password = credentials['gmail_id'], credentials['gmail_password']
+file.close()
 
 
 def get_contacts(product):

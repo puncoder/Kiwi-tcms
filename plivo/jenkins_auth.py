@@ -1,2 +1,0 @@
-username = 'qa'
-password = 'secret'
