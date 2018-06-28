@@ -1,6 +1,7 @@
 # Plivo Test Case Management System
 from plivo.products import product
 import argparse
+import git
 from robot.api import TestData
 import os
 from os import listdir
@@ -275,10 +276,10 @@ def sequential_starter(args):
 
         # update Git Repo before process
         _PATH = os.getcwd()
-        os.chdir('/home/ubuntu/QATools')
+
         print('Updating master from Git...')
-        os.system('git pull')
-        os.chdir(_PATH)
+        g = git.cmd.Git(r'/home/ubuntu/QATools')
+        g.pull()
         robot_files = [file for file in listdir(path_) if str(file).lower().endswith('.robot')]
         if not robot_files:
             raise Exception('[Error] No robot file in the folder.', path_)
