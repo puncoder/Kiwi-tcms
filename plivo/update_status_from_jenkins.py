@@ -136,10 +136,8 @@ def _change_status(jenkins_status, run_id):
                 print('Case id:', case.id, '::\n\t\tOld Status ==>', _old_status, '\n\t\tChanges to ==>', case.status)
                 print()
 
-            except:
+            except Exception as e:
                 pass
-
-            sleep(0.1)
 
     print('\n========== UPDATED CASES ===================================\n')
     for case in TestRun(run_id):
