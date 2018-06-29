@@ -275,11 +275,11 @@ def sequential_starter(args):
             raise Exception('[Error] Folder not found.  ', path_)
 
         # update Git Repo before process
-        _PATH = os.getcwd()
-
         print('Updating master from Git...')
-        g = git.cmd.Git(r'/home/ubuntu/QATools')
-        g.pull()
+        import subprocess
+        process = subprocess.Popen(["sudo git", "pull"], stdout=subprocess.PIPE)
+        output = process.communicate()[0]
+        print(output)
         robot_files = [file for file in listdir(path_) if str(file).lower().endswith('.robot')]
         if not robot_files:
             raise Exception('[Error] No robot file in the folder.', path_)
