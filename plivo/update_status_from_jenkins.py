@@ -110,7 +110,10 @@ def change_status_from_run(status, run_id, testcases):
 
 
 def _change_status(jenkins_status, run_id):
+    if not str(run_id).isdigit():
+        raise Exception('Please pass integer as run id.')
     run_id = int(run_id)
+
     print('Test Run id :: ', run_id)
     print('============= UPDATING CASES ===============================\n')
     for Test_plan, plan_val in jenkins_status.items():
