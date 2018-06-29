@@ -1,8 +1,8 @@
 # Plivo Test Case Management System
 from plivo.products import product
 import argparse
-import git
 from robot.api import TestData
+import subprocess
 import os
 from os import listdir
 from os.path import isfile, join, isdir, basename, normpath
@@ -275,11 +275,13 @@ def sequential_starter(args):
             raise Exception('[Error] Folder not found.  ', path_)
 
         # update Git Repo before process
+        PATH_ = os.getcwd()
+        os.chdir(r'/home/ubuntu/QATools')
         print('Updating master from Git...')
-        import subprocess
-        process = subprocess.Popen(["sudo git", "pull"], stdout=subprocess.PIPE)
-        output = process.communicate()[0]
-        print(output)
+        process = subprocess.Popen(["git", "pull"], stdout=subprocess.PIPE)
+        output = process.communicate()
+        print('Git pull response : ', output)
+        os.chdir(PATH_)
         robot_files = [file for file in listdir(path_) if str(file).lower().endswith('.robot')]
         if not robot_files:
             raise Exception('[Error] No robot file in the folder.', path_)
