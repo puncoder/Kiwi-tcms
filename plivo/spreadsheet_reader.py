@@ -13,7 +13,7 @@ flags = tools.argparser.parse_args([])
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/sheets.googleapis.com-python-quickstart.json
 SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
-CLIENT_SECRET_FILE = 'client_secret.json'
+CLIENT_FILE = 'client_secret.json'
 APPLICATION_NAME = 'Google Sheets API Python Quickstart'
 
 
@@ -30,6 +30,10 @@ def get_credentials():
     credential_dir = os.path.join(home_dir, '.credentials')
     if not os.path.exists(credential_dir):
         os.makedirs(credential_dir)
+        CLIENT_SECRET_FILE = CLIENT_FILE
+    else:
+        CLIENT_SECRET_FILE = os.path.join(credential_dir, CLIENT_FILE)
+
     credential_path = os.path.join(credential_dir,
                                    'sheets.googleapis.com-python-quickstart.json')
 

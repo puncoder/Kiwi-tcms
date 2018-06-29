@@ -88,6 +88,7 @@ def sequential_starter(args):
             print('===============================')
 
         print('Rows updated ::', rows)
+
     if args.jenkins_jobs:
         run_name = False
         job = args.jenkins_jobs[0]
@@ -96,112 +97,6 @@ def sequential_starter(args):
         if update_status_from_jenkins(job, run_name):
             print('Job updated :: ', job)
             print('============================================================')
-
-    if args.case_run_id:
-        if args.status:
-            rows = update_case_run_id_status([args.case_run_id, args.status])
-        else:
-            raise Exception('Please pass status using -status argument in same command.')
-
-        print('Rows updated : ', rows)
-
-    if args.add_testcase:
-        argv = args.add_testcase
-        if len(argv) != 3:
-            raise Exception('Please pass Exactly 3 arguments. Testcase Name, Category id, Notes.')
-
-        if 'name=' not in argv[0] or 'cat_id=' not in argv[1] or 'notes=' not in argv[2]:
-            raise Exception('Please pass Exactly 3 arguments with args name="test case name" cat_id="category id" '
-                            'notes="Add notes" ')
-        testname = argv[0].split('name=')[1]
-        cat_id = argv[1].split('cat_id=')[1]
-        notes = argv[2].split('notes=')[1]
-
-        testcase_data = dict()
-        testcase_data['test_case_name'] = testname
-        testcase_data['category_id'] = cat_id
-        testcase_data['notes'] = notes
-
-        rows, case_id = create_testcase(testcase_data)
-
-        print('Rows updated ::', rows)
-        print('Test case id ::', case_id)
-
-    if args.add_tc_to_run:
-        argv = args.add_tc_to_run
-        if len(argv) != 4:
-            raise Exception('Please pass Exactly 4 arguments. run_id, case_id, status, Notes.')
-
-        testcase_data = dict()
-        try:
-            if '-' in argv[1]:
-                start, stop = map(int, argv[1].split('-'))
-            else:
-                start = stop = int(argv[1])
-
-        except ValueError:
-            raise ValueError('Please pass integers for run_id and case_id.')
-
-        for case_id in range(start, stop + 1):
-            try:
-
-                testcase_data['run_id'] = int(argv[0])
-                testcase_data['case_id'] = case_id
-                testcase_data['status'] = argv[2]
-                testcase_data['notes'] = argv[3]
-
-            except ValueError:
-                raise Exception('Please pass integers for run_id and case_id.')
-
-            rows, case_run_id = add_testcase_to_run(testcase_data)
-
-            print('Rows updated ::', rows)
-            print('Test case id ::', case_run_id)
-            print()
-
-    if args.set_running:
-        try:
-            run_id = int(args.set_running)
-            set_run_status(run_id, False)
-        except ValueError:
-            raise Exception('Please pass integer for Run Id.')
-
-    if args.set_finished:
-        try:
-            run_id = int(args.set_finished)
-            set_run_status(run_id, True)
-        except ValueError:
-            raise Exception('Please pass integer for Run Id.')
-
-    if args.get_running_testruns:
-        running_test_runs = get_running_test_runs()
-        if running_test_runs:
-            print('Run id\t\tSummary')
-            for run_id, summary in running_test_runs:
-                print(run_id,'\t\t', summary)
-        else:
-            print('No Running Test Runs.')
-
-    if args.get_finished_testruns:
-        finished_test_runs = get_finished_test_runs()
-        if finished_test_runs:
-            print('Run id\t\tSummary')
-            for run_id, summary in finished_test_runs:
-                print(run_id,'\t\t', summary)
-        else:
-            print('No Finished Test Runs.')
-
-    if args.status_by_run:
-        if len(args.status_by_run) < 3:
-            raise Exception('Please pass at least 3 arguments.\nStatus, Run id, TestCase ids')
-        status = args.status_by_run[0]
-        try:
-            run_id = int(args.status_by_run[1])
-        except ValueError:
-            raise Exception('Please pass an integer for plan id.')
-        testcase_ids = args.status_by_run[2:]
-
-        change_status_from_run(status, run_id, testcase_ids)
 
     if args.add_testcase_jenkins:
         argv = args.add_testcase_jenkins
@@ -339,6 +234,112 @@ def sequential_starter(args):
 
         print('Test Case Added ::', rows)
 
+    if args.case_run_id:
+        if args.status:
+            rows = update_case_run_id_status([args.case_run_id, args.status])
+        else:
+            raise Exception('Please pass status using -status argument in same command.')
+
+        print('Rows updated : ', rows)
+
+    if args.add_testcase:
+        argv = args.add_testcase
+        if len(argv) != 3:
+            raise Exception('Please pass Exactly 3 arguments. Testcase Name, Category id, Notes.')
+
+        if 'name=' not in argv[0] or 'cat_id=' not in argv[1] or 'notes=' not in argv[2]:
+            raise Exception('Please pass Exactly 3 arguments with args name="test case name" cat_id="category id" '
+                            'notes="Add notes" ')
+        testname = argv[0].split('name=')[1]
+        cat_id = argv[1].split('cat_id=')[1]
+        notes = argv[2].split('notes=')[1]
+
+        testcase_data = dict()
+        testcase_data['test_case_name'] = testname
+        testcase_data['category_id'] = cat_id
+        testcase_data['notes'] = notes
+
+        rows, case_id = create_testcase(testcase_data)
+
+        print('Rows updated ::', rows)
+        print('Test case id ::', case_id)
+
+    if args.add_tc_to_run:
+        argv = args.add_tc_to_run
+        if len(argv) != 4:
+            raise Exception('Please pass Exactly 4 arguments. run_id, case_id, status, Notes.')
+
+        testcase_data = dict()
+        try:
+            if '-' in argv[1]:
+                start, stop = map(int, argv[1].split('-'))
+            else:
+                start = stop = int(argv[1])
+
+        except ValueError:
+            raise ValueError('Please pass integers for run_id and case_id.')
+
+        for case_id in range(start, stop + 1):
+            try:
+
+                testcase_data['run_id'] = int(argv[0])
+                testcase_data['case_id'] = case_id
+                testcase_data['status'] = argv[2]
+                testcase_data['notes'] = argv[3]
+
+            except ValueError:
+                raise Exception('Please pass integers for run_id and case_id.')
+
+            rows, case_run_id = add_testcase_to_run(testcase_data)
+
+            print('Rows updated ::', rows)
+            print('Test case id ::', case_run_id)
+            print()
+
+    if args.set_running:
+        try:
+            run_id = int(args.set_running)
+            set_run_status(run_id, False)
+        except ValueError:
+            raise Exception('Please pass integer for Run Id.')
+
+    if args.set_finished:
+        try:
+            run_id = int(args.set_finished)
+            set_run_status(run_id, True)
+        except ValueError:
+            raise Exception('Please pass integer for Run Id.')
+
+    if args.get_running_testruns:
+        running_test_runs = get_running_test_runs()
+        if running_test_runs:
+            print('Run id\t\tSummary')
+            for run_id, summary in running_test_runs:
+                print(run_id,'\t\t', summary)
+        else:
+            print('No Running Test Runs.')
+
+    if args.get_finished_testruns:
+        finished_test_runs = get_finished_test_runs()
+        if finished_test_runs:
+            print('Run id\t\tSummary')
+            for run_id, summary in finished_test_runs:
+                print(run_id,'\t\t', summary)
+        else:
+            print('No Finished Test Runs.')
+
+    if args.status_by_run:
+        if len(args.status_by_run) < 3:
+            raise Exception('Please pass at least 3 arguments.\nStatus, Run id, TestCase ids')
+        status = args.status_by_run[0]
+        try:
+            run_id = int(args.status_by_run[1])
+        except ValueError:
+            raise Exception('Please pass an integer for plan id.')
+        testcase_ids = args.status_by_run[2:]
+
+        change_status_from_run(status, run_id, testcase_ids)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -362,7 +363,7 @@ if __name__ == '__main__':
                              'with this arg.'
                              'format ::\n -add_testcase_from_jenkins <jenkins_job_name> '
                              '<product_name> <plan_name> <testrun_name> <build_name>')
-
+    # Below are just for Dev purpose. ( Featured )
     parser.add_argument('-status', action='store', dest='status',
                         help='Updates status for a range or single Test Case Run id.'
                              '\nPass the status here. it must be used with -case_ids argument.')
@@ -377,7 +378,6 @@ if __name__ == '__main__':
                              'Need to pass Test Case Name, Category id, and Notes with this arg.\n'
                              'format ::\n -add_testcase name="test case name" cat_id=category id notes="add notes" ')
 
-    #
     parser.add_argument('-set_running', action='store', dest='set_running',
                         help='This sets the Test Run to Running. Pass the Test Run id')
 
@@ -401,17 +401,14 @@ if __name__ == '__main__':
     results = parser.parse_args()
 
     # starts the tasks in sequential order.
-    flag = True
-    while flag:
-        try:
-            sequential_starter(results)
-            flag = False
-        except OSError as e:
-            raise OSError(e)
-        except Exception as e:
-            raise Exception(e)
-        finally:
-            close_conn()
+    try:
+        sequential_starter(results)
+    except OSError as e:
+        raise OSError(e)
+    except Exception as e:
+        raise Exception(e)
+    finally:
+        close_conn()
 
 
 

@@ -9,8 +9,9 @@ from tcms_api.mutable import TestRun, TestCaseRunStatus
 from plivo.tcms_utils import get_max_id
 
 # Login to running KIWI server.
-# TCMSXmlrpc('plivo', 'root', 'http://127.0.0.1:8000/xml-rpc/')
-TCMSXmlrpc('plivo', 'root', 'http://0.0.0.0:80/xml-rpc/')
+with open('xml-rpc.txt') as file:
+    server = file.read().strip()
+TCMSXmlrpc('plivo', 'root', 'http://'+server+'/xml-rpc/')
 
 # Authenticating Jenkins
 home_dir = os.path.expanduser('~')
