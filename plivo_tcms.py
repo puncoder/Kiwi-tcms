@@ -278,7 +278,7 @@ def sequential_starter(args):
         PATH_ = os.getcwd()
         os.chdir(r'/home/ubuntu/QATools')
         print('Updating master from Git...')
-        process = subprocess.Popen("git pull", stdout=subprocess.PIPE, shell=True)
+        process = subprocess.Popen("sudo git pull", stdout=subprocess.PIPE, shell=True)
         output = process.communicate()
         print('Git pull response : ', output)
         os.chdir(PATH_)
