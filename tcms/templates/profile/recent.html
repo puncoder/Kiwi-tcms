@@ -15,59 +15,7 @@
 <div id="content" >
 	<div class="listinfo_content listinfo_index">
 		<div class="leftlistinfo">
-			<table cellpadding="0" cellspacing="0" class="home_table">
-				<tr>
-					<th colspan="4"><div class="sprites tableheader"> <div class="sprites tableheaderleft">Test Builds.</div><div class="sprites tableheaderright"></div></div></th>
-				</tr>
-				<!--{% for test_run in all_test_runs %}-->
-				<!--<tr>-->
-					<!--<td class="sprites home_table_bar" width="120" align="center">-->
-                                            <!--{% include "run/status_progress.html" with status_stats=test_run.stats_caseruns_status %}-->
-					<!--</td>-->
-					<!--<td colspan="3">-->
-						<!--<a	class="link" href="{% url "testruns-get" test_run.run_id %}">-->
-							<!--{{ test_run.summary }}-->
-						<!--</a>-->
-						<!--<div class="grey" style="margin-top:5px">Start at {{ test_run.start_date }}</div>-->
-					<!--</td>-->
-				<!--</tr>-->
-				<!--{% endfor %}-->
-
-				{% for test_build in all_builds %}
-				<tr>
-					<!--<td class="sprites home_table_bar" width="120" align="center">-->
-                                            <!--{% include "run/status_progress.html" with status_stats=test_run.stats_caseruns_status %}-->
-					<!--</td>-->
-					<td colspan="3">
-						<a	class="link" href="/runs/?action=search&product={{test_build.product_id}}&build={{test_build.build_id}}">
-							{{ test_build }}
-						</a>
-						<div class="grey" style="margin-top:3px">Product : {{test_build.product}}</div>
-						<!--<div class="grey" style="margin-top:3px">Build id : {{test_build.build_id}}</div>-->
-					</td>
-				</tr>
-				{% endfor %}
-				<tr>
-					<th colspan="4">
-						{% if build_count %}
-						<div class="sprites tablefooter"> 
-                        <div class="left_float">
-                        {{ build_count }} Builds.</div>
-						</div>
-						{% else %}
-						<div class="sprites tablefooter">
-                        <div class="left_float">No Builds.</div>
-                        <div class="sprites tablefooterleft"></div>
-						<div class="sprites tablefooterright"></div>
-						</div>
-						{% endif %}
-					</th>
-				</tr>
-			</table>
-		
-		</div>
-		<div class="rightlistinfo">
-			<table cellpadding="0" cellspacing="0" class="home_table" style="margin-left:200px;">
+			<table cellpadding="0" cellspacing="0" class="home_table" style="margin-left:10px;">
 				<tr>
 					<th style="min-width:100px"><div class="sprites tableheader"> <div class="sprites tableheaderleft">PRODUCTS</div></div></th>
 					<th class="sprites tableheader" align="left">       </th>
@@ -77,14 +25,14 @@
 
 				{% for product in products %}
 				<tr class="{% cycle 'odd' 'even' %}">
-					<td height="27"><a class="link" href="{% url "testruns-all"%}?product={{product.0}}">{{product.1}}</a></td>
+					<td height="25"><a class="link" href="{% url "testruns-all"%}?product={{product.0}}">{{product.1}}</a></td>
 
 				</tr>
 				{% endfor %}
 
 				<tr>
 					<th colspan="4">
-						<div class="sprites tablefooter"> 
+						<div class="sprites tablefooter">
                             <div class="left_float">You manage {{product_count}} Products.</div>
 							<div class="sprites tablefooterleft"></div>
 							<div class="sprites tablefooterright"></div>
