@@ -7,6 +7,5 @@ managers['data'] = ['Karthik,karthik@plivo.com']
 managers['phlo'] = ['Govinda,govinda@plivo.com']
 managers['console'] = ['Govinda,govinda@plivo.com']
 managers['zentrunk'] = ['Abhilash,abhilash@plivo.com','Sushant,sushant@plivo.com']
-managers['sms'] = []
 for user in managers:
     managers[user].extend(mandatory_reviewers)
