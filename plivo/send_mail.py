@@ -9,10 +9,9 @@ from plivo.product_managers import managers
 home_dir = os.path.expanduser('~')
 credential_dir = os.path.join(home_dir, '.credentials')
 credential_path = os.path.join(credential_dir, 'plivo_auth.json')
-file = open(credential_path)
-credentials = json.loads(file.read())
+with open(credential_path) as file:
+    credentials = json.loads(file.read())
 username, password = credentials['gmail_id'], credentials['gmail_password']
-file.close()
 
 
 def get_contacts(product):

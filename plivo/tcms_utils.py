@@ -228,6 +228,7 @@ def add_testcase_to_plan(testcase_data):
         raise Exception (error)
     return rows, testcase_data['id']
 
+
 def _status_id(status):
     _status = dict()
     _status[1] = {'IDLE'}
@@ -438,7 +439,7 @@ def create_testrun(testrun_data):
 
 
 def close_conn():
-    if conn is not None:
+    if conn:
         cur.close()
         conn.close()
 
@@ -450,9 +451,4 @@ if __name__ == '__main__':
             'notes' : 'dummy notes'
             }
     print('Row added :: ', create_testcase(data))
-    # print('Running testruns :: ', create_testcase())
-    # print('Rows ::', set_status(2,1))
-    # print('Running testruns :: ', running_test_runs())
 
-    # breakdown = Details
-    # actions = Steps to Execute

@@ -17,10 +17,9 @@ TCMSXmlrpc('plivo', 'root', 'http://'+server+'/xml-rpc/')
 home_dir = os.path.expanduser('~')
 credential_dir = os.path.join(home_dir, '.credentials')
 credential_path = os.path.join(credential_dir, 'plivo_auth.json')
-file = open(credential_path)
-credentials = json.loads(file.read())
+with open(credential_path) as file:
+    credentials = json.loads(file.read())
 username, password = credentials['jenkins_id'], credentials['jenkins_password']
-file.close()
 
 
 def _parse_jenkin_output(job_name):
