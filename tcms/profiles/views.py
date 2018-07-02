@@ -187,12 +187,13 @@ def pbuild(request, username, product_id, template_name='profile/product_builds.
     prod_builds = {run.build for run in all_test_runs if (run.build.product_id == product_id)}
     prod_build_count = len(prod_builds)
     prod = dict()
-    prod[1] = 'SMS'
+    prod[1] = 'MESSAGING'
     prod[2] = 'VOICE'
-    prod[3] = 'PLATFORM'
+    prod[3] = 'INTERNAL SYSTEM'
     prod[4] = 'PHLO'
     prod[5] = 'DATA'
     prod[6] = 'CONSOLE'
+    prod[7] = 'ZENTRUNK'
 
     product = prod[product_id]
 

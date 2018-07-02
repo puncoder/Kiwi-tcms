@@ -1,18 +1,18 @@
 product = {}
 
 ########################
-prod = 'SMS'
+prod = 'MESSAGING'
 product[prod] = {}
 product[prod]['environment_id'] = 0
 product[prod]['build_id'] = 1
-product[prod]['notes'] = 'default SMS note'
+product[prod]['notes'] = 'default MESSAGING note'
 product[prod]['default_tester_id'] = 1
 product[prod]['manager_id'] = 1
 product[prod]['plan_id'] = 1
 product[prod]['product_version_id'] = 1
 product[prod]['estimated_time'] = '00:00:00'
-product[prod]['summary'] = 'Test Run for SMS.'
-product[prod]['name'] = 'Test plan for SMS.'
+product[prod]['summary'] = 'Test Run for MESSAGING.'
+product[prod]['name'] = 'Test plan for MESSAGING.'
 product[prod]['author_id'] = 1
 product[prod]['owner_id'] = 1
 product[prod]['parent_id'] = 'NULL'
@@ -53,20 +53,19 @@ product[prod]['exp_out'] = ''
 
 
 
-
 ########################
-prod = 'PLATFORM'
+prod = 'INTERNAL SYSTEM'
 product[prod] = {}
 product[prod]['environment_id'] = 0
 product[prod]['build_id'] = 3
-product[prod]['notes'] = 'default PLATFORM note'
+product[prod]['notes'] = 'default INTERNAL SYSTEM note'
 product[prod]['default_tester_id'] = 1
 product[prod]['manager_id'] = 1
 product[prod]['plan_id'] = 1
 product[prod]['product_version_id'] = 1
 product[prod]['estimated_time'] = '00:00:00'
-product[prod]['summary'] = 'Test Run for PLATFORM.'
-product[prod]['name'] = 'Test plan for PLATFORM.'
+product[prod]['summary'] = 'Test Run for INTERNAL SYSTEM.'
+product[prod]['name'] = 'Test plan for INTERNAL SYSTEM.'
 product[prod]['author_id'] = 1
 product[prod]['owner_id'] = 1
 product[prod]['parent_id'] = 'NULL'
@@ -157,5 +156,30 @@ product[prod]['category_id'] = 6
 product[prod]['requirement'] = ''
 product[prod]['exp_out'] = ''
 
+
+########################
+prod = 'ZENTRUNK'
+product[prod] = {}
+product[prod]['environment_id'] = 0
+product[prod]['build_id'] = 7
+product[prod]['notes'] = 'default ZENTRUNK note'
+product[prod]['default_tester_id'] = 1
+product[prod]['manager_id'] = 1
+product[prod]['plan_id'] = 1
+product[prod]['product_version_id'] = 1
+product[prod]['estimated_time'] = '00:00:00'
+product[prod]['summary'] = 'Test Run for ZENTRUNK.'
+product[prod]['name'] = 'Test plan for ZENTRUNK.'
+product[prod]['author_id'] = 1
+product[prod]['owner_id'] = 1
+product[prod]['parent_id'] = 'NULL'
+product[prod]['product_id'] = 7
+product[prod]['product_version_id'] = 7
+product[prod]['type_id'] = 1
+product[prod]['plan_text_version'] = 1
+product[prod]['default_tester_id'] = 1
+product[prod]['category_id'] = 7
+product[prod]['requirement'] = ''
+product[prod]['exp_out'] = ''
 
 

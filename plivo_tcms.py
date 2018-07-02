@@ -1,6 +1,7 @@
 # Plivo Test Case Management System
 from plivo.products import product
 import argparse
+import time
 from robot.api import TestData
 import subprocess
 import os
@@ -401,6 +402,7 @@ if __name__ == '__main__':
     results = parser.parse_args()
 
     # starts the tasks in sequential order.
+    t1 = time.time()
     try:
         sequential_starter(results)
     except OSError as e:
@@ -410,6 +412,7 @@ if __name__ == '__main__':
     finally:
         close_conn()
 
+    print('Process completed in %d seconds.' % (time.time()-t1))
 
 
 

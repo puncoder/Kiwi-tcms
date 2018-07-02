@@ -41,7 +41,7 @@ release_plan = tcms_api.TestPlan(
     parent=None,
     name="python / rhel-6.2.0 / ER#11359",
     type="Performance",
-    product="SMS",
+    product="MESSAGING",
     version="1.2",
     text= 'simple text')
 
@@ -56,8 +56,8 @@ release_plan.update()
 info("Creating a new test case")
 testcase = tcms_api.TestCase(
     summary="New performance test",
-    product="SMS",
-    category="SMS category",
+    product="MESSAGING",
+    category="MESSAGING category",
     script="/CoreOS/python/Performance/base")
 
 # Set status, priority, default tester, add tags, attach bugs, link plans
@@ -79,7 +79,7 @@ for testplan in general_plan.children:
 info("Creating a new test run")
 testrun = tcms_api.TestRun(
     testplan=release_plan,
-    build="SMS-build",
+    build="MESSAGING-build",
     summary="python-2.6.6-20.el6.x86_64 / ER#11359")
 
 # Get script and arguments for all IDLE performance caseruns, move to RUNNING
