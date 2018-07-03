@@ -359,11 +359,8 @@ if __name__ == '__main__':
                              'format ::\n -add_testcase_from_jenkins <jenkins_job_name> '
                              '<product_name> <plan_name> <testrun_name> <build_name>')
     parser.add_argument('-add_from_robot', action='store', dest='add_from_robot', nargs='+',
-                        help='This adds the test cases from a jenkins job .'
-                             'Need to pass jenkins_job_name, product_name, plan_name , testrun_name and build_name '
-                             'with this arg.'
-                             'format ::\n -add_testcase_from_jenkins <jenkins_job_name> '
-                             '<product_name> <plan_name> <testrun_name> <build_name>')
+                        help='This adds the test cases from a QATools folder which as robot files .'
+                             'Need to pass Product name, build_name  and path to the folder.')
     # Below are just for Dev purpose. ( Featured )
     parser.add_argument('-status', action='store', dest='status',
                         help='Updates status for a range or single Test Case Run id.'
