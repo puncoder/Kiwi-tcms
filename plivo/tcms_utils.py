@@ -159,7 +159,7 @@ def create_testcase(testcase_data):
             testcase_data['doc_id'] = cur.fetchone()[0]
         except Exception as e:
             testcase_data['doc_id'] = 1
-        print(testcase_data)
+
         # execute the insert  statement
         cur.execute(doc_sql.format(**testcase_data))
 
