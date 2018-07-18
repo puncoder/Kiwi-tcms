@@ -364,7 +364,7 @@ def sequential_starter(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-spreadsheet_product', action='store', dest='spreadsheet_product', nargs='+',
+    parser.add_argument('-add_from_spreadsheet', action='store', dest='spreadsheet_product', nargs='+',
                         help='Adds the test cases from google spreadsheet. Pass the spreadsheet id and product name. '
                              'Can pass build name too.')
 
