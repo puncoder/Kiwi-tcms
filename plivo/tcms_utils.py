@@ -189,7 +189,7 @@ def add_testcase_to_run(testcase_data):
             testcase_data['case_run_id'] = cur.fetchone()[0]
         except Exception as e:
             testcase_data['case_run_id'] = 1
-        print(testcase_data)
+
         # execute the insert  statement
         cur.execute(sql.format(**testcase_data))
         conn.commit()
