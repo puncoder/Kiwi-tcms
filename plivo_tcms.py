@@ -1,12 +1,10 @@
 # Plivo Test Case Management System
-from plivo.products import product
 import argparse
 import time
 from robot.api import TestData
-import subprocess
-import os
 from os import listdir
 from os.path import isfile, join, isdir, basename, normpath
+from plivo.products import product
 from plivo.spreadsheet_reader import parse_spreadsheet
 from plivo.tcms_utils import add_testcase_to_run, update_case_run_id_status, create_testcase, \
     set_run_status, get_running_test_runs, close_conn, get_finished_test_runs, create_test_plan, create_testrun, \
@@ -19,18 +17,23 @@ def sequential_starter(args):
     print('Process Started..')
 
     if args.spreadsheet_product:
-        if len(args.spreadsheet_product) == 2:
+        if len(args.spreadsheet_product) >= 2:
             spreadsheet_id = args.spreadsheet_product[0]
             product_name = args.spreadsheet_product[1].upper()
 
         else:
-            raise Exception('Please pass exactly two params, spreadsheet id and product_name.')
+            raise Exception('Please pass at least two params, spreadsheet id and product_name.'
+                            'You can pass build name as third param(Non Mandatory).')
+        build_name = None
+        if len(args.spreadsheet_product) == 3:
+            build_name = args.spreadsheet_product[2]
+
         print('Adding from Spreadsheet.')
         data_dict, title = parse_spreadsheet(spreadsheet_id)
         rows = 0
         # creating build
         build_data = product[product_name].copy()
-        build_data['build_name'] = title
+        build_data['build_name'] = build_name or title
         build_id = create_build(build_data)
 
         for plan, data in data_dict.items():
@@ -43,8 +46,8 @@ def sequential_starter(args):
             print('plan id :: ', plan_id)
 
             testrun_data['plan_id'] = plan_id
-            testrun_data['summary'] = plan
-            testrun_data['notes'] = title
+            testrun_data['summary'] = str(plan).replace("'", "''")
+            testrun_data['notes'] = str(title).replace("'", "''")
             testrun_data['build_id'] = build_id
             run_id = create_testrun(testrun_data)
             print('test run id ::', run_id)
@@ -55,13 +58,14 @@ def sequential_starter(args):
                 print('case', '::', case)
                 print('#####')
                 testcase_data = product[product_name].copy()
-                testcase_data['test_case_name'] = case
+                testcase_data['test_case_name'] = str(case).replace("'", "''")
                 testcase_data['build_id'] = build_id
-                testcase_data['notes'] = case_data['note']
+                testcase_data['notes'] = str(case_data['note']).replace("'", "''")
                 testcase_data['plan_id'] = plan_id
-                testcase_data['exp_out'] = ''.join(['<p>'+line+'</p>' for line in case_data['exp_output'].split('\n')])
-                testcase_data['status'] = case_data['status']
-                testcase_data['component'] = case_data['component']
+                testcase_data['exp_out'] = str(''.join(['<p>'+line+'</p>' for line in case_data['exp_output'].split('\n')])).replace("'", "''")
+                testcase_data['status'] = str(case_data['status']).replace("'", "''")
+                testcase_data['component'] = str(case_data['component']).replace("'", "''")
+                testcase_data['details'] = str(''.join(['<p>'+line+'</p>' for line in case_data['note'].split('\n')])).replace("'", "''")
                 row, case_id = create_testcase(testcase_data)
                 testcase_data['case_id'] = case_id
 
@@ -73,7 +77,7 @@ def sequential_starter(args):
                 print('Adding test case to test run.')
                 testcase_data['run_id'] = run_id
                 testcase_data['case_id'] = case_id
-                testcase_data['notes'] = title
+                testcase_data['notes'] = str(title).replace("'", "''")
                 row, case_id = add_testcase_to_run(testcase_data)
 
                 if testcase_data['component']:
@@ -116,19 +120,19 @@ def sequential_starter(args):
         # all_testcases = [case.strip() for key, val in jenkins_data.items() for case in val['testcase']]
         # creating build
         build_data = product[product_name].copy()
-        build_data['build_name'] = build_name
+        build_data['build_name'] = str(build_name).replace("'", "''")
         build_id = create_build(build_data)
 
         plan_data = product[product_name].copy()
         testrun_data = product[product_name].copy()
-        plan_data['name'] = plan_name
+        plan_data['name'] = str(plan_name).replace("'", "''")
         plan_data['build_id'] = build_id
 
         plan_id = create_test_plan(plan_data)
         print('plan id :: ', plan_id)
 
         testrun_data['plan_id'] = plan_id
-        testrun_data['summary'] = testrun_name
+        testrun_data['summary'] = str(testrun_name).replace("'", "''")
         testrun_data['build_id'] = build_id
         run_id = create_testrun(testrun_data)
         print('test run id ::', run_id)
@@ -138,8 +142,8 @@ def sequential_starter(args):
         for plan, values in jenkins_data.items():
             for case in values['testcase']:
                 testcase_data = product[product_name].copy()
-                testcase_data['test_case_name'] = case
-                testcase_data['notes'] = plan
+                testcase_data['test_case_name'] = str(case).replace("'", "''")
+                testcase_data['notes'] = str(plan).replace("'", "''")
                 testcase_data['plan_id'] = plan_id
                 row, case_id = create_testcase(testcase_data)
 
@@ -159,25 +163,40 @@ def sequential_starter(args):
 
     if args.add_from_robot:
         argv = args.add_from_robot
-        if len(argv) != 3:
-            raise Exception('Please pass exactly Three argument,Product, Build Name and Folder path.')
+        if len(argv) < 3:
+            raise Exception('Please pass at least Three mandatory argument => Product, Build Name and Folder path.')
         product_name = argv[0].upper()
-        build_name = argv[1].upper()
+        build_name = str(argv[1].upper()).replace("'", "''")
         path_ = argv[2]
+        plan = None
+        testrun = None
+        if len(argv) == 4 and '=' in argv[3]:
+            arg, value = argv[3].split('=')
+            if arg.lower() == 'plan':
+                plan = str(value).replace("'", "''")
+            if arg.lower() == 'testrun':
+                testrun = str(value).replace("'", "''")
+
+        if len(argv) == 5:
+            if '=' in argv[3]:
+                arg, value = argv[3].split('=')
+                if arg.lower() == 'plan':
+                    plan = str(value).replace("'", "''")
+                if arg.lower() == 'testrun':
+                    testrun = str(value).replace("'", "''")
+            if '=' in argv[4]:
+                arg, value = argv[4].split('=')
+                if arg.lower() == 'plan':
+                    plan = str(value).replace("'", "''")
+                if arg.lower() == 'testrun':
+                    testrun = str(value).replace("'", "''")
+
         if product_name not in product:
             raise Exception('[Error] Product not found :', product_name)
 
         if not isdir(path_):
             raise Exception('[Error] Folder not found.  ', path_)
 
-        # update Git Repo before process
-        PATH_ = os.getcwd()
-        os.chdir(r'/home/ubuntu/QATools')
-        print('Updating master from Git...')
-        process = subprocess.Popen("sudo git pull", stdout=subprocess.PIPE, shell=True)
-        output = process.communicate()
-        print('Git pull response : ', output)
-        os.chdir(PATH_)
         robot_files = [file for file in listdir(path_) if str(file).lower().endswith('.robot')]
         if not robot_files:
             raise Exception('[Error] No robot file in the folder.', path_)
@@ -194,7 +213,7 @@ def sequential_starter(args):
 
         # creating plan
         print('creating Test Plan..')
-        plan = basename(normpath(path_))
+        plan = plan or str(basename(normpath(path_))).replace("'", "''")
         plan_data['name'] = plan
         plan_data['build_id'] = build_id
         plan_id = create_test_plan(plan_data)
@@ -203,7 +222,7 @@ def sequential_starter(args):
         # create test run
         print('creating Test Run..')
         testrun_data['plan_id'] = plan_id
-        testrun_data['summary'] = plan
+        testrun_data['summary'] = testrun or plan
         testrun_data['build_id'] = build_id
         run_id = create_testrun(testrun_data)
         print('test run id ::', run_id)
@@ -345,8 +364,9 @@ def sequential_starter(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-add_from_spreadsheet', action='store', dest='spreadsheet_product', nargs='+',
-                        help='Adds the test cases from google spreadsheet. Pass the spreadsheet id and product name')
+    parser.add_argument('-spreadsheet_product', action='store', dest='spreadsheet_product', nargs='+',
+                        help='Adds the test cases from google spreadsheet. Pass the spreadsheet id and product name. '
+                             'Can pass build name too.')
 
     parser.add_argument('-update_from_jenkins', action='store', dest='jenkins_jobs', nargs='+',
                         help='Updates status from jenkins jobs. Pass the jenkins job name.\n'
@@ -360,7 +380,9 @@ if __name__ == '__main__':
                              '<product_name> <plan_name> <testrun_name> <build_name>')
     parser.add_argument('-add_from_robot', action='store', dest='add_from_robot', nargs='+',
                         help='This adds the test cases from a QATools folder which has robot files .'
-                             'Need to pass Product name, build_name  and path to the folder.')
+                             'Need to pass Product name, build_name  and path to the folder.'
+                             'Can pass testrun and plan as plan=<plan_name> and testrun=<testrun_name> '
+                             'as last and second last args.')
     # Below are just for Dev purpose. ( Featured )
     parser.add_argument('-status', action='store', dest='status',
                         help='Updates status for a range or single Test Case Run id.'

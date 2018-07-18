@@ -141,7 +141,7 @@ def create_testcase(testcase_data):
                 1, NULL, '00:00:00');"""
 
     doc_sql = """insert into test_case_texts values({doc_id}, 1 , current_timestamp , '', '{exp_out}', 
-                '' , '', '', '', '', '', 1, {case_id});"""
+                '' , '{details}', '', '', '', '', 1, {case_id});"""
     rows = None
     try:
         # get the max id
