@@ -216,7 +216,7 @@ def add_testcase_to_plan(testcase_data):
             testcase_data['id'] = cur.fetchone()[0]
         except Exception as e:
             testcase_data['id'] = 1
-        print(testcase_data)
+
         # execute the insert  statement
         cur.execute(sql.format(**testcase_data))
         conn.commit()
@@ -308,7 +308,7 @@ def create_build(build_data):
             build_data['build_id'] = cur.fetchone()[0]
         except Exception as e:
             build_data['build_id'] = 1
-        print(build_data)
+
         # execute the insert  statement
         cur.execute(sql.format(**build_data))
         conn.commit()
@@ -341,7 +341,7 @@ def create_component(data):
             data['component_id'] = cur.fetchone()[0]
         except Exception as e:
             data['component_id'] = 1
-        print(data)
+
         # execute the insert  statement
         cur.execute(sql.format(**data))
         conn.commit()
@@ -367,7 +367,6 @@ def add_component(data):
             data['id'] = cur.fetchone()[0]
         except Exception as e:
             data['id'] = 1
-        print(data)
         # execute the insert  statement
         cur.execute(sql.format(**data))
         conn.commit()
@@ -396,7 +395,6 @@ def create_test_plan(testplan_data):
             testplan_data['plan_id'] = cur.fetchone()[0]
         except Exception as e:
             testplan_data['plan_id'] = 1
-        print(testplan_data)
         # execute the insert  statement
         cur.execute(sql.format(**testplan_data))
         conn.commit()
@@ -425,7 +423,6 @@ def create_testrun(testrun_data):
             testrun_data['run_id'] = cur.fetchone()[0]
         except Exception as e:
             testrun_data['run_id'] = 1
-        print(testrun_data)
         # execute the insert  statement
         cur.execute(sql.format(**testrun_data))
         conn.commit()
