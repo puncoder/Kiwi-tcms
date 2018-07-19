@@ -7,6 +7,7 @@ from time import sleep
 from tcms_api.xmlrpc import TCMSXmlrpc
 from tcms_api.mutable import TestRun, TestCaseRunStatus
 from plivo.tcms_utils import get_max_id
+from termcolor import colored
 
 # Login to running KIWI server.
 with open('xml-rpc.txt') as file:
@@ -94,7 +95,7 @@ def change_status_from_run(status, run_id, testcases):
 
     print('testCase_ids :: ', testcase_ids)
 
-    print('============= UPDATING CASES ===============================\n')
+    print(colored('UPDATING CASES.....\n', color='green'))
 
     for case in TestRun(run_id):
         if flag or case.id in testcase_ids:
@@ -102,10 +103,12 @@ def change_status_from_run(status, run_id, testcases):
             status_id = _status_id(status)
             case.status = TestCaseRunStatus(status_id)
             case.update()
-            print('Case id:', case.id, '::', _old_status, 'Changes to =>', case.status)
-    print('\n========== UPDATED CASES ===================================\n')
+            print(colored('Case id : ' + str(case.id) + '\n' +
+                          str(_old_status) + ' Changes to => '+ str( case.status),color='magenta'))
+            print(colored('########################################################################################', color='yellow'))
+    print(colored('\nUPDATED CASES\n',color='cyan'))
     for case in TestRun(run_id):
-        print('Case id:', case.id, '===>', case)
+        print(colored('Case id : ' + str(case.id) + ' ===> ' + str(case), color='green'))
 
 
 def _change_status(jenkins_status, run_id):
@@ -114,7 +117,7 @@ def _change_status(jenkins_status, run_id):
     run_id = int(run_id)
 
     print('Test Run id :: ', run_id)
-    print('============= UPDATING CASES ===============================\n')
+    print(colored('UPDATING CASES.....\n', color='green'))
     for Test_plan, plan_val in jenkins_status.items():
 
         for case in TestRun(run_id):
@@ -122,26 +125,25 @@ def _change_status(jenkins_status, run_id):
                 test_case = str(case).split('-')[-1].strip()
                 status = plan_val['testcase'][test_case]['status']
 
-                print('Test Case :: ', test_case)
-                print('Jenkins Status for the Test case :: ', status)
+                print(colored('Test Case created : ' + str(test_case), color='white'))
+                print(colored('Jenkins Status for the Test case :: '+ str(status),color='cyan'))
 
                 status = _status_id(status)
-                print('Status id :: ', status)
 
                 _old_status = case.status
-                print('Old Status for the Test case :: ', _old_status)
+                print(colored('Old Status for the Test case :: ' + str(_old_status), color='blue'))
                 case.status = TestCaseRunStatus(status)
                 case.update()
-                print('Case id:', case.id, '::\n\t\tOld Status ==>', _old_status, '\n\t\tChanges to ==>', case.status)
-                print()
+                print(colored('Case id : '  + str(case.id) + ' \n ' +
+                              str(_old_status) + ' Changes to => ' + str(case.status), color='magenta'))
+                print(colored('########################################################################################',color='yellow'))
 
             except Exception as e:
                 pass
 
-    print('\n========== UPDATED CASES ===================================\n')
+        print(colored('Updated Cases.....\n', color='magenta'))
     for case in TestRun(run_id):
-        print('Case id:', case.id, '===>', case)
-    print('\n============================================================\n')
+        print(colored('Case id : ' + str(case.id) + ' ===> ' + str(case), color='green'))
 
 
 def _change_status_all_runs(jenkins_status):
@@ -156,19 +158,19 @@ def _change_status_all_runs(jenkins_status):
                         test_case = str(case).split('-')[-1].strip()
                         status = plan_val['testcase'][test_case]['status']
 
-                        print('Test Case :: ', test_case)
-                        print('Jenkins Status for the Test case :: ', status)
+                        print(colored('Test Case created : ' + str(test_case), color='white'))
+                        print(colored('Jenkins Status for the Test case :: ' + str(status), color='cyan'))
 
                         status = _status_id(status)
-                        print('Status id :: ', status)
 
                         _old_status = case.status
-                        print('Old Status for the Test case :: ', _old_status)
+                        print(colored('Old Status for the Test case :: ' + str(_old_status), color='blue'))
                         case.status = TestCaseRunStatus(status)
                         case.update()
-                        print('Case id:', case.id, '::\n\t\tOld Status ==>', _old_status, '\n\t\tChanges to ==>',
-                              case.status)
-                        print()
+                        print(colored('Case id : ' + str(case.id) + ' \n ' +
+                                      str(_old_status) + ' Changes to => ' + str(case.status), color='magenta'))
+                        print(colored('########################################################################################',
+                                      color='yellow'))
 
                     except:
                         pass

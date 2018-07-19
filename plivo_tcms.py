@@ -1,6 +1,7 @@
 # Plivo Test Case Management System
 import argparse
 import time
+from termcolor import colored
 from robot.api import TestData
 from os import listdir
 from os.path import isfile, join, isdir, basename, normpath
@@ -14,7 +15,7 @@ from plivo.update_status_from_jenkins import update_status_from_jenkins, change_
 
 
 def sequential_starter(args):
-    print('Process Started..')
+    print(colored('Process Started..', color='green'))
 
     if args.spreadsheet_product:
         if len(args.spreadsheet_product) >= 2:
@@ -28,35 +29,37 @@ def sequential_starter(args):
         if len(args.spreadsheet_product) == 3:
             build_name = args.spreadsheet_product[2]
 
-        print('Adding from Spreadsheet.')
+        print(colored('Adding from Spreadsheet.', color='yellow'))
         data_dict, title = parse_spreadsheet(spreadsheet_id)
+        print(colored('Spreadsheet Title : ' + str(title), color='green'))
         rows = 0
         # creating build
         build_data = product[product_name].copy()
         build_data['build_name'] = build_name or title
         build_id = create_build(build_data)
+        print('Build Name :', build_data['build_name'])
 
         for plan, data in data_dict.items():
-            print('plan ::', plan)
+            print('Plan Name :', plan)
             plan_data = product[product_name].copy()
             testrun_data = product[product_name].copy()
             plan_data['name'] = plan
             plan_data['build_id'] = build_id
             plan_id = create_test_plan(plan_data)
-            print('plan id :: ', plan_id)
+            print('Plan id : ', plan_id)
 
             testrun_data['plan_id'] = plan_id
             testrun_data['summary'] = str(plan).replace("'", "''")
             testrun_data['notes'] = str(title).replace("'", "''")
             testrun_data['build_id'] = build_id
             run_id = create_testrun(testrun_data)
-            print('test run id ::', run_id)
+            print('Test run id ::', run_id)
 
-            print('creating test cases..')
+            print(colored('Creating test cases..', color='green'))
 
             for case, case_data in data.items():
-                print('case', '::', case)
-                print('#####')
+                print(colored('################################', color='red'))
+                print(colored('Creating Test Case : ' + str(case), color='white'))
                 testcase_data = product[product_name].copy()
                 testcase_data['test_case_name'] = str(case).replace("'", "''")
                 testcase_data['build_id'] = build_id
@@ -72,7 +75,7 @@ def sequential_starter(args):
                 print('Adding test case to plan.')
                 row, id = add_testcase_to_plan(testcase_data)
 
-                print('id :: ', id)
+                print('Case id :', case_id)
 
                 print('Adding test case to test run.')
                 testcase_data['run_id'] = run_id
@@ -81,18 +84,18 @@ def sequential_starter(args):
                 row, case_id = add_testcase_to_run(testcase_data)
 
                 if testcase_data['component']:
-                    print('create component.')
-
+                    print('creating component.')
                     testcase_data['component_id'] = create_component(testcase_data)
-
-                    print('Add to the component.')
-
+                    print('Adding to the component.')
                     add_component(testcase_data)
 
                 rows += row
-            print('===============================')
+                print(colored('Test Case created : ' + str(case), color='red'))
+                print(colored('################################', color='blue'))
+            print(colored('Plan Completed : ' + str(plan), color='cyan'))
+            print(colored('#########################',color='cyan'))
 
-        print('Rows updated ::', rows)
+        print(colored('Rows updated :: '+ str(rows), color='blue'))
 
     if args.jenkins_jobs:
         run_name = False
@@ -100,13 +103,13 @@ def sequential_starter(args):
         if len(args.jenkins_jobs) > 1:
             run_name = args.jenkins_jobs[1]
         if update_status_from_jenkins(job, run_name):
-            print('Job updated :: ', job)
-            print('============================================================')
+            print(colored('Job updated :: '+str(job), color='cyan'))
+            print('#######################')
 
     if args.add_testcase_jenkins:
         argv = args.add_testcase_jenkins
         if len(argv) != 5:
-            raise Exception('Please pass Exactly 5 arguments. jenkins_job_name, product, plan name, testrun name and'
+            raise Exception('Please pass Exactly 5 arguments. jenkins_job_name, product, plan name, testrun_name and '
                             'Build name.')
 
         job_name = argv[0]
@@ -129,15 +132,15 @@ def sequential_starter(args):
         plan_data['build_id'] = build_id
 
         plan_id = create_test_plan(plan_data)
-        print('plan id :: ', plan_id)
+        print('Plan id :: ', plan_id)
 
         testrun_data['plan_id'] = plan_id
         testrun_data['summary'] = str(testrun_name).replace("'", "''")
         testrun_data['build_id'] = build_id
         run_id = create_testrun(testrun_data)
-        print('test run id ::', run_id)
+        print('Test run id ::', run_id)
 
-        print('creating test cases..')
+        print(colored('Creating test cases..', color='green'))
         rows = 0
         for plan, values in jenkins_data.items():
             for case in values['testcase']:
@@ -159,7 +162,10 @@ def sequential_starter(args):
                 row, case_id = add_testcase_to_run(testcase_data)
                 rows += row
 
-        print('Test Case Added. ::', rows)
+                print(colored('Test Case created : ' + str(case), color='magenta'))
+                print(colored('################################', color='green'))
+
+        print('Test Case Count :', rows)
 
     if args.add_from_robot:
         argv = args.add_from_robot
@@ -431,7 +437,7 @@ if __name__ == '__main__':
     finally:
         close_conn()
 
-    print('Process completed in %d seconds.' % (time.time()-t1))
+    print(colored('Process completed in %d seconds.' % (time.time()-t1), color='magenta'))
 
 
 

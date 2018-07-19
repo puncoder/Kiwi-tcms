@@ -1,4 +1,5 @@
 import psycopg2
+from termcolor import colored
 hostname = 'localhost'
 username = 'postgres'
 password = 'root'
@@ -133,7 +134,7 @@ def create_testcase(testcase_data):
     Params to pass ::
     test_case_name, note, category_id"""
 
-    print('Adding new test case...')
+    print(colored('Adding new test case...' , color='green'))
     max_id = """select nextval('test_cases_case_id_seq');"""
     doc_id = """select nextval('test_case_texts_id_seq');"""
     sql = """insert into test_cases values({case_id}, current_timestamp , 0, 'f' , NULL, NULL, NULL, 
@@ -205,7 +206,7 @@ def add_testcase_to_run(testcase_data):
 def add_testcase_to_plan(testcase_data):
     """Adds a test case to test plan."""
 
-    print('Adding test case to test run ...')
+    print(colored('Adding test case to test run ...', color='yellow'))
     max_id = """select nextval('test_case_plans_id_seq');"""
     sql = """insert into test_case_plans values({id}, 1, {case_id}, {plan_id});"""
 
@@ -296,7 +297,7 @@ def create_build(build_data):
         print('Build already exists with same name.')
         return cur.fetchone()[0]
 
-    print('creating new build...')
+    print(colored('Creating new build..', color='blue'))
     max_id = """select nextval('test_builds_build_id_seq');"""
     sql = """insert into test_builds values({build_id},'{build_name}', '{build_name}' ,'t',{product_id});"""
 
@@ -327,10 +328,10 @@ def create_component(data):
     sql = '''select id from components where name='{component}' and product_id={product_id};'''
     cur.execute(sql.format(**data))
     if cur.rowcount == 1:
-        print('Component already exists with same name for the product.')
+        print(colored('Component already exists with same name for the product.', color='cyan'))
         return cur.fetchone()[0]
 
-    print('creating new component...')
+    print(colored('creating new component...', color='blue'))
     max_id = """select nextval('components_id_seq');"""
     sql = """insert into components values({component_id},'{component}', '{component}' ,NULL,NULL,{product_id});"""
 
@@ -356,7 +357,7 @@ def create_component(data):
 def add_component(data):
     """Adds component to Test case."""
 
-    print('Adding component to test case...')
+    print(colored('Adding component to test case...', color='blue'))
     max_id = """select nextval('test_case_components_id_seq');"""
     sql = """insert into test_case_components values({id}, {case_id}, {component_id});"""
 
@@ -381,8 +382,7 @@ def add_component(data):
 def create_test_plan(testplan_data):
     """creates test run and returns test run id"""
 
-
-    print('creating new test plan ...')
+    print(colored('creating new test plan ...',color='blue'))
     max_id = """select nextval('test_plans_plan_id_seq');"""
     sql = """insert into test_plans values({plan_id}, '{name}', 
             current_timestamp, 't', NULL , '{author_id}', {owner_id}, {parent_id}, {product_id}, {product_version_id},
@@ -410,7 +410,7 @@ def create_test_plan(testplan_data):
 def create_testrun(testrun_data):
     """creates test run and returns test run id"""
 
-    print('creating new test run ...')
+    print(colored('creating new test run ...', color='blue'))
     max_id = """select nextval('test_runs_run_id_seq');"""
     sql = """insert into test_runs values({run_id}, {plan_text_version}, 
             current_timestamp, NULL, '{summary}', '{notes}', {environment_id}, 'f', {build_id}, {default_tester_id},

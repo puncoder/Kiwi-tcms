@@ -23,6 +23,7 @@ product[prod]['default_tester_id'] = 1
 product[prod]['category_id'] = 1
 product[prod]['requirement'] = ''
 product[prod]['exp_out'] = ''
+product[prod]['details'] = ''
 
 
 ########################
@@ -48,6 +49,7 @@ product[prod]['default_tester_id'] = 1
 product[prod]['category_id'] = 2
 product[prod]['requirement'] = ''
 product[prod]['exp_out'] = ''
+product[prod]['details'] = ''
 
 
 
@@ -74,6 +76,7 @@ product[prod]['default_tester_id'] = 1
 product[prod]['category_id'] = 3
 product[prod]['requirement'] = ''
 product[prod]['exp_out'] = ''
+product[prod]['details'] = ''
 
 
 ########################
@@ -99,6 +102,7 @@ product[prod]['default_tester_id'] = 1
 product[prod]['category_id'] = 4
 product[prod]['requirement'] = ''
 product[prod]['exp_out'] = ''
+product[prod]['details'] = ''
 
 
 ########################
@@ -124,6 +128,7 @@ product[prod]['default_tester_id'] = 1
 product[prod]['category_id'] = 5
 product[prod]['requirement'] = ''
 product[prod]['exp_out'] = ''
+product[prod]['details'] = ''
 
 
 ########################
@@ -149,6 +154,7 @@ product[prod]['default_tester_id'] = 1
 product[prod]['category_id'] = 6
 product[prod]['requirement'] = ''
 product[prod]['exp_out'] = ''
+product[prod]['details'] = ''
 
 
 ########################
@@ -174,5 +180,6 @@ product[prod]['default_tester_id'] = 8
 product[prod]['category_id'] = 7
 product[prod]['requirement'] = ''
 product[prod]['exp_out'] = ''
+product[prod]['details'] = ''
 
 
