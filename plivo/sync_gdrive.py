@@ -1,3 +1,6 @@
+"""This Script deletes the older files from a google drive and keep only latest 5.
+To execute this successfully, gdrive must be installed and configure with the gmail id."""
+
 import subprocess
 import io
 import dateutil.parser
