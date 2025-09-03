@@ -4,7 +4,7 @@ Installation ::
 
 commands:
 --------
-  git clone https://github.com/Coder-AMiT/Kiwi-tcms
+  git clone https://github.com/puncoder/Kiwi-tcms
   
   mv Kiwi-tcms Kiwi  
   
